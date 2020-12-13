@@ -15,9 +15,9 @@ class CategoriesListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_categories_list)
         val categoriesGrid = findViewById<GridView>(R.id.categoriesGrid)
         val categories = listOf(
-            Category("Recepies", 1),
-            Category("Books", 3),
-            Category("Airsoft", 2)
+                Category("Recepies", 1),
+                Category("Books", 3),
+                Category("Airsoft", 2)
         )
         categoriesGrid.adapter = CategoriesAdapter(categories) { view, category ->
             view.findViewById<TextView>(R.id.categoryTitle).text = category.title
@@ -26,9 +26,9 @@ class CategoriesListActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.addCategoryButton).setOnClickListener {
             Toast.makeText(
-                this,
-                "clicked!",
-                Toast.LENGTH_SHORT
+                    this,
+                    "clicked!",
+                    Toast.LENGTH_SHORT
             ).show()
         }
 
