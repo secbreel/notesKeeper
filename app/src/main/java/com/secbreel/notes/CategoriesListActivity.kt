@@ -1,5 +1,6 @@
 package com.secbreel.notes
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,6 +8,7 @@ import android.widget.Button
 import android.widget.GridView
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class CategoriesListActivity : AppCompatActivity() {
@@ -25,12 +27,25 @@ class CategoriesListActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.addCategoryButton).setOnClickListener {
-            Toast.makeText(
+            /*Toast.makeText(
                     this,
                     "clicked!",
                     Toast.LENGTH_SHORT
-            ).show()
+            ).show()*/
+            startActivity(Intent(this, CreateCategoryActivity::class.java))
         }
 
+        findViewById<BottomNavigationView>(R.id.bottomNavigation).setOnNavigationItemSelectedListener{ item ->
+            when(item.itemId) {
+                R.id.navigation_categories -> {
+                    true
+                }
+                R.id.navigation_settings -> {
+                    true
+                }
+                else -> false
+            }
+
+        }
     }
 }
