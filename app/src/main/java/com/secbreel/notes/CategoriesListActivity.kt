@@ -15,32 +15,19 @@ class CategoriesListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categories_list)
-        val categoriesGrid = findViewById<GridView>(R.id.categoriesGrid)
-        val categories = listOf(
-                Category("Recepies", 1),
-                Category("Books", 3),
-                Category("Airsoft", 2)
-        )
-        categoriesGrid.adapter = CategoriesAdapter(categories) { view, category ->
-            view.findViewById<TextView>(R.id.categoryTitle).text = category.title
-            view.findViewById<TextView>(R.id.notesCount).text = "${category.notesCount}"
-        }
+        val categoriesListFragment = CategoriesListFragment()
+        val settingsFragment = SettingsFragment()
 
-        findViewById<Button>(R.id.addCategoryButton).setOnClickListener {
-            /*Toast.makeText(
-                    this,
-                    "clicked!",
-                    Toast.LENGTH_SHORT
-            ).show()*/
-            startActivity(Intent(this, CreateCategoryActivity::class.java))
-        }
+        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, categoriesListFragment, "CATEGORIES_LIST").commit()
 
         findViewById<BottomNavigationView>(R.id.bottomNavigation).setOnNavigationItemSelectedListener{ item ->
             when(item.itemId) {
                 R.id.navigation_categories -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, categoriesListFragment,"CATEGORIES_LIST").commit()
                     true
                 }
                 R.id.navigation_settings -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, settingsFragment, "SETTINGS").commit()
                     true
                 }
                 else -> false

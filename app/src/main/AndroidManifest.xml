@@ -10,9 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Notes">
         <activity android:name=".CreateCategoryActivity"
-            android:parentActivityName=".CategoriesListActivity">
+            android:parentActivityName=".CategoriesListActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".CategoriesListActivity">
+        <activity android:name=".CategoriesListActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
