@@ -1,10 +1,11 @@
-package com.secbreel.notes
+package com.secbreel.notes.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.secbreel.notes.R
 
 
 class SettingsFragment : Fragment() {

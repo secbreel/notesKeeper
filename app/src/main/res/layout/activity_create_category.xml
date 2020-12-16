@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateCategoryActivity"
+    tools:context=".ui.CreateCategoryActivity"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:layout_gravity="center"
             android:src="@drawable/ic_baseline_image_24" />
     </androidx.cardview.widget.CardView>
 

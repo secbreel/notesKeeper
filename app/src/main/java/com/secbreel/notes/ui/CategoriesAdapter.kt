@@ -1,8 +1,10 @@
-package com.secbreel.notes
+package com.secbreel.notes.ui
 
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import com.secbreel.notes.model.Category
+import com.secbreel.notes.R
 
 class CategoriesAdapter(val categorieList : List<Category>, val binding : (View, Category) -> Unit) : BaseAdapter() {
 

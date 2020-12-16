@@ -1,20 +1,15 @@
-package com.secbreel.notes
+package com.secbreel.notes.ui
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.GridView
-import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.secbreel.notes.R
 
 
-class CategoriesListActivity : AppCompatActivity() {
+class ApplicationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_categories_list)
+        setContentView(R.layout.activity_application)
         val categoriesListFragment = CategoriesListFragment()
         val settingsFragment = SettingsFragment()
 
