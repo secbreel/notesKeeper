@@ -15,6 +15,8 @@ class CategoryRepository(context : Context) {
 
     fun delete(category : Category) = dao.delete(category)
 
+    fun clear() = dao.clear()
+
     fun insert(category: Category) = dao.insert(category)
 
     companion object {

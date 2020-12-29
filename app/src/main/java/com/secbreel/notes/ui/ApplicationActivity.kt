@@ -1,19 +1,26 @@
 package com.secbreel.notes.ui
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.secbreel.notes.R
+import java.util.jar.Manifest
 
 
 class ApplicationActivity : AppCompatActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_application)
+
         val categoriesListFragment = CategoriesListFragment()
         val settingsFragment = SettingsFragment()
 
         supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, categoriesListFragment, "CATEGORIES_LIST").commit()
+
 
         findViewById<BottomNavigationView>(R.id.bottomNavigation).setOnNavigationItemSelectedListener{ item ->
             when(item.itemId) {
@@ -30,4 +37,8 @@ class ApplicationActivity : AppCompatActivity() {
 
         }
     }
+
+
+
+
 }

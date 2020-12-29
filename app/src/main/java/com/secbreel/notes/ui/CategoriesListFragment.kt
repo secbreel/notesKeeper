@@ -16,23 +16,14 @@ import io.reactivex.schedulers.Schedulers
 
 
 class CategoriesListFragment : Fragment() {
+    lateinit var categoriesGrid : GridView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_categories_list, null)
-        val categoriesGrid = rootView.findViewById<GridView>(R.id.categoriesGrid)
-        CategoryRepository(requireContext()).observeAll()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { categories ->
-                categoriesGrid.adapter = CategoriesAdapter(categories) { view, category ->
-                    view.findViewById<TextView>(R.id.categoryTitle).text = category.title
-                    view.findViewById<TextView>(R.id.notesCount).text = "${category.notesCount}"
-                }
-            }.subscribe()
-
+        categoriesGrid = rootView.findViewById<GridView>(R.id.categoriesGrid)
 
         rootView.findViewById<Button>(R.id.addCategoryButton).setOnClickListener {
             /*Toast.makeText(
@@ -43,6 +34,25 @@ class CategoriesListFragment : Fragment() {
             startActivity(Intent(activity, CreateCategoryActivity::class.java))
         }
         return rootView
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        getCategories()
+    }
+
+    private fun getCategories() {
+        CategoryRepository(requireContext()).observeAll()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { categories ->
+                categoriesGrid.adapter = CategoriesAdapter(categories) { view, category ->
+                    view.findViewById<TextView>(R.id.categoryTitle).text = category.title
+                    view.findViewById<TextView>(R.id.notesCount).text = "${category.notesCount}"
+                }
+            }
+            .subscribe()
     }
 
 }

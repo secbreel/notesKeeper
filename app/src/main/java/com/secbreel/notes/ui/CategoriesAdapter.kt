@@ -6,19 +6,18 @@ import android.widget.BaseAdapter
 import com.secbreel.notes.model.Category
 import com.secbreel.notes.R
 
-class CategoriesAdapter(val categorieList : List<Category>, val binding : (View, Category) -> Unit) : BaseAdapter() {
+class CategoriesAdapter(val categoriesList : List<Category>, val binding : (View, Category) -> Unit) : BaseAdapter() {
 
-    override fun getCount(): Int = categorieList.count()
+    override fun getCount(): Int = categoriesList.count()
 
-    override fun getItem(position: Int) = categorieList[position]
+    override fun getItem(position: Int) = categoriesList[position]
 
     override fun getItemId(position: Int) = position.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView ?: View.inflate(parent?.context, R.layout.item_category, null)
-        val item = categorieList[position]
+        val item = categoriesList[position]
         binding(view, item)
         return view
     }
-
 }

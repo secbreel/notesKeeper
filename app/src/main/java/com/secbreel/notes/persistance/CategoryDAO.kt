@@ -19,6 +19,9 @@ interface CategoryDAO {
     @Delete
     fun delete(category : Category) : Completable
 
+    @Query("DELETE FROM category")
+    fun clear() : Completable
+
     @Insert
     fun insert(category: Category) : Completable
 }
