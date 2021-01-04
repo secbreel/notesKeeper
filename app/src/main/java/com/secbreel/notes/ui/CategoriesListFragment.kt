@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridView
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.secbreel.notes.R
 import com.secbreel.notes.persistance.CategoryRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -48,6 +50,11 @@ class CategoriesListFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { categories ->
                 categoriesGrid.adapter = CategoriesAdapter(categories) { view, category ->
+                    Glide
+                        .with(this)
+                        .load(category.imagePath)
+                        .placeholder(R.drawable.test_background)
+                        .into(view.findViewById(R.id.categoryBackground))
                     view.findViewById<TextView>(R.id.categoryTitle).text = category.title
                     view.findViewById<TextView>(R.id.notesCount).text = "${category.notesCount}"
                 }
