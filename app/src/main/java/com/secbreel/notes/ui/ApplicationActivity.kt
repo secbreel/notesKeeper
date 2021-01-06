@@ -7,7 +7,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.secbreel.notes.R
-import java.util.jar.Manifest
 
 
 class ApplicationActivity : AppCompatActivity() {
