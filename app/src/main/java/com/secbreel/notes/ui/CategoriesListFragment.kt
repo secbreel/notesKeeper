@@ -12,55 +12,50 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.secbreel.notes.R
-import com.secbreel.notes.persistance.CategoryRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class CategoriesListFragment : Fragment() {
-    lateinit var categoriesGrid : GridView
+    private val viewModel by viewModel<CategoriesListViewModel>()
+    private lateinit var adapter : CategoriesAdapter
+    var disposable : Disposable = Disposables.disposed()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_categories_list, null)
-        categoriesGrid = rootView.findViewById<GridView>(R.id.categoriesGrid)
-
+        val categoriesGrid = rootView.findViewById<GridView>(R.id.categoriesGrid)
         rootView.findViewById<Button>(R.id.addCategoryButton).setOnClickListener {
-            /*Toast.makeText(
-                    this,
-                    "clicked!",
-                    Toast.LENGTH_SHORT
-            ).show()*/
             startActivity(Intent(activity, CreateCategoryActivity::class.java))
         }
-
+        adapter = CategoriesAdapter { view, category ->
+            Glide
+                .with(this)
+                .load(category.imagePath)
+                .placeholder(R.drawable.test_background)
+                .into(view.findViewById(R.id.categoryBackground))
+            view.findViewById<TextView>(R.id.categoryTitle).text = category.title
+            view.findViewById<TextView>(R.id.notesCount).text = "${category.notesCount}"
+        }
+        categoriesGrid.adapter = adapter
         return rootView
+    }
+
+    override fun onPause() {
+        super.onPause()
+        disposable.dispose()
     }
 
     override fun onResume() {
         super.onResume()
-
-        getCategories()
-    }
-
-    private fun getCategories() {
-        CategoryRepository(requireContext()).observeAll()
-            .subscribeOn(Schedulers.io())
+        disposable = viewModel.categories
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { categories ->
-                categoriesGrid.adapter = CategoriesAdapter(categories) { view, category ->
-                    Glide
-                        .with(this)
-                        .load(category.imagePath)
-                        .placeholder(R.drawable.test_background)
-                        .into(view.findViewById(R.id.categoryBackground))
-                    view.findViewById<TextView>(R.id.categoryTitle).text = category.title
-                    view.findViewById<TextView>(R.id.notesCount).text = "${category.notesCount}"
-                }
-            }
+            .doOnNext(adapter::submitList)
+            .doOnNext{ Log.i("MYTAG", "hello")}
             .subscribe()
     }
-
 }
