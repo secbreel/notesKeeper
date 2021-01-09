@@ -8,13 +8,13 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.secbreel.notes.R
-import com.secbreel.notes.persistance.CategoryRepository
-import io.reactivex.schedulers.Schedulers
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SettingsFragment : Fragment() {
-    val repository by inject<CategoryRepository>()
+
+    val viewModel by viewModel<SettingsFragmentViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -22,8 +22,7 @@ class SettingsFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_settings, container, false)
 
         rootView.findViewById<Button>(R.id.clearCategories).setOnClickListener {
-            repository.clear()
-                .subscribeOn(Schedulers.io())
+            viewModel.repositoryClear
                 .subscribe()
             Toast.makeText(requireContext(), "CATEGORIES CLEARED!", Toast.LENGTH_SHORT).show()
         }

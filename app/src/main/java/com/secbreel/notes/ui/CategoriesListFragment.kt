@@ -2,7 +2,6 @@ package com.secbreel.notes.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,7 +54,6 @@ class CategoriesListFragment : Fragment() {
         disposable = viewModel.categories
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext(adapter::submitList)
-            .doOnNext{ Log.i("MYTAG", "hello")}
             .subscribe()
     }
 }
