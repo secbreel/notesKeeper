@@ -27,6 +27,11 @@ class CreateCategoryActivity : AppCompatActivity() {
 
         backgroundIconView = findViewById(R.id.categoryIcon)
 
+        Glide
+            .with(this)
+            .load(R.drawable.ic_baseline_image_24)
+            .into(backgroundIconView)
+
         backgroundIconView.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_PICK,
@@ -56,7 +61,7 @@ class CreateCategoryActivity : AppCompatActivity() {
                     Glide
                         .with(this)
                         .load(bitmap)
-                        .placeholder(R.drawable.test_background)
+                        .placeholder(R.drawable.ic_baseline_image_24)
                         .centerCrop()
                         .into(backgroundIconView)
                 }

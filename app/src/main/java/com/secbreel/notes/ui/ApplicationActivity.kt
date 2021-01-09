@@ -19,6 +19,7 @@ class ApplicationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_application)
 
         val categoriesListFragment = CategoriesListFragment()
+        val calendarFragment = CalendarFragment()
         val settingsFragment = SettingsFragment()
 
         getPermissions()
@@ -29,6 +30,10 @@ class ApplicationActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.navigation_categories -> {
                     supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, categoriesListFragment,"CATEGORIES_LIST").commit()
+                    true
+                }
+                R.id.navigation_calendar -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, calendarFragment, "CALENDAR").commit()
                     true
                 }
                 R.id.navigation_settings -> {

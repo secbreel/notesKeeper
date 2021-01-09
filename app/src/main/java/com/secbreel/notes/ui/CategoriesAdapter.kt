@@ -3,6 +3,8 @@ package com.secbreel.notes.ui
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
+import android.widget.Toast
 import com.secbreel.notes.R
 import com.secbreel.notes.model.Category
 
@@ -24,7 +26,12 @@ class CategoriesAdapter(private val initialCategoriesList : List<Category> = lis
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView ?: View.inflate(parent?.context, R.layout.item_category, null)
         val item = categoriesList[position]
+        view.findViewById<ImageView>(R.id.categoryBackground).setOnClickListener {
+            Toast.makeText(view.context, position.toString(), Toast.LENGTH_SHORT).show()
+        }
+
         binding(view, item)
         return view
     }
+
 }
