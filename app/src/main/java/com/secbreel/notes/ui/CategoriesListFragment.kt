@@ -8,19 +8,22 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.secbreel.notes.R
+import com.secbreel.notes.model.Category
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class CategoriesListFragment : Fragment() {
+class CategoriesListFragment() : Fragment() {
     private val viewModel by viewModel<CategoriesListViewModel>()
-    private lateinit var adapter : CategoriesAdapter
-    var disposable : Disposable = Disposables.disposed()
+    private lateinit var adapter: CategoriesAdapter
+    var disposable: Disposable = Disposables.disposed()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +40,17 @@ class CategoriesListFragment : Fragment() {
                 .load(category.imagePath)
                 .placeholder(R.drawable.test_background)
                 .into(view.findViewById(R.id.categoryBackground))
+            view.findViewById<CardView>(R.id.categoryItem).setOnClickListener {
+                parentFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.fragmentContainer,
+                        CategoryScreenFragment(category),
+                        "CATEGORY_SCREEN"
+                    )
+                    .addToBackStack(null)
+                    .commit()
+
+            }
             view.findViewById<TextView>(R.id.categoryTitle).text = category.title
             view.findViewById<TextView>(R.id.notesCount).text = "${category.notesCount}"
         }

@@ -10,6 +10,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import com.secbreel.notes.model.Category
+import com.secbreel.notes.model.Note
 import com.secbreel.notes.persistance.CategoryRepository
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
@@ -17,20 +18,24 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
-class CreateCategoryViewModel(private val repository: CategoryRepository, private val app : Application) : ViewModel(){
+class CreateCategoryViewModel(
+    private val repository: CategoryRepository,
+    private val app: Application
+) : ViewModel() {
 
     private lateinit var currentPhotoPath: String
 
-    fun addCategory(title : String) : Completable {
+    fun addCategory(title: String): Completable {
         return repository.insert(Category(title, 0, currentPhotoPath))
             .subscribeOn(Schedulers.io())
     }
 
 
-    private fun getBitmap(uri : Uri) : Bitmap {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+    private fun getBitmap(uri: Uri): Bitmap {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             return ImageDecoder.decodeBitmap(
-                ImageDecoder.createSource(app.contentResolver, uri))
+                ImageDecoder.createSource(app.contentResolver, uri)
+            )
         }
         return MediaStore.Images.Media.getBitmap(app.contentResolver, uri)
     }

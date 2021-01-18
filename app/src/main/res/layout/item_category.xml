@@ -2,10 +2,11 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_gravity="center"
-    android:layout_height="wrap_content"
+    android:id="@+id/categoryItem"
     android:layout_width="wrap_content"
-    app:cardCornerRadius="20dp">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -29,9 +30,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/knewave"
+            android:fontFamily="sans-serif"
             android:text="TextView"
             android:textColor="#FFFFFF"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/categoryBackground"
             app:layout_constraintTop_toTopOf="@+id/categoryBackground" />
 
@@ -41,9 +43,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:fontFamily="@font/knewave"
+            android:fontFamily="sans-serif"
             android:text="TextView"
             android:textColor="#FFFFFF"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/categoryBackground"
             app:layout_constraintEnd_toEndOf="@+id/categoryBackground" />
     </androidx.constraintlayout.widget.ConstraintLayout>

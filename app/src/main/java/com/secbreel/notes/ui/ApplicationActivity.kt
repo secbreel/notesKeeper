@@ -20,24 +20,33 @@ class ApplicationActivity : AppCompatActivity() {
 
         val categoriesListFragment = CategoriesListFragment()
         val calendarFragment = CalendarFragment()
+        //val calendarFragment = CreateNotesFragment() // testing CreateNotesFragment
+        //val calendarFragment = CategoryScreenFragment() // testing CategoryScreenFragment
         val settingsFragment = SettingsFragment()
 
         getPermissions()
 
-        supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, categoriesListFragment, "CATEGORIES_LIST").commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, categoriesListFragment, "CATEGORIES_LIST").commit()
 
-        findViewById<BottomNavigationView>(R.id.bottomNavigation).setOnNavigationItemSelectedListener{ item ->
-            when(item.itemId) {
+        findViewById<BottomNavigationView>(R.id.bottomNavigation).setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
                 R.id.navigation_categories -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, categoriesListFragment,"CATEGORIES_LIST").commit()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, categoriesListFragment, "CATEGORIES_LIST")
+                        .addToBackStack(null).commit()
                     true
                 }
                 R.id.navigation_calendar -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, calendarFragment, "CALENDAR").commit()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, calendarFragment, "CALENDAR")
+                        .addToBackStack(null).commit()
                     true
                 }
                 R.id.navigation_settings -> {
-                    supportFragmentManager.beginTransaction().replace(R.id.fragmentContainer, settingsFragment, "SETTINGS").commit()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, settingsFragment, "SETTINGS")
+                        .addToBackStack(null).commit()
                     true
                 }
                 else -> false
@@ -47,9 +56,25 @@ class ApplicationActivity : AppCompatActivity() {
     }
 
     fun getPermissions() {
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), READ_STORAGE_REQUEST_CODE)
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), WRITE_STORAGE_REQUEST_CODE)
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        )
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                READ_STORAGE_REQUEST_CODE
+            )
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        )
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                WRITE_STORAGE_REQUEST_CODE
+            )
     }
 }

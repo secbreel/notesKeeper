@@ -45,7 +45,7 @@ class CreateCategoryActivity : AppCompatActivity() {
         findViewById<Button>(R.id.button).setOnClickListener {
             viewModel.addCategory(findViewById<EditText>(R.id.editCategoryTitle).text.toString())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete{ finish() }
+                .doOnComplete { finish() }
                 .subscribe()
         }
     }
@@ -55,7 +55,7 @@ class CreateCategoryActivity : AppCompatActivity() {
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             Observable.just(data?.data)
                 .subscribeOn(Schedulers.io())
-                .doOnNext {bitmapUri -> viewModel.saveImage(bitmapUri!!) }
+                .doOnNext { bitmapUri -> viewModel.saveImage(bitmapUri!!) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { bitmap ->
                     Glide
