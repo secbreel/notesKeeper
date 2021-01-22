@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
 import com.secbreel.notes.R
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,9 +26,11 @@ class CreateCategoryActivity : AppCompatActivity() {
 
         backgroundIconView = findViewById(R.id.categoryIcon)
 
-        Glide
+        GlideApp
             .with(this)
-            .load(R.drawable.ic_baseline_image_24)
+            .load("")
+            .error(R.drawable.ic_baseline_image_24)
+            .centerCrop()
             .into(backgroundIconView)
 
         backgroundIconView.setOnClickListener {
@@ -58,7 +59,7 @@ class CreateCategoryActivity : AppCompatActivity() {
                 .doOnNext { bitmapUri -> viewModel.saveImage(bitmapUri!!) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { bitmap ->
-                    Glide
+                    GlideApp
                         .with(this)
                         .load(bitmap)
                         .centerCrop()

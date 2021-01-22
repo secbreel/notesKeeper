@@ -1,6 +1,5 @@
 package com.secbreel.notes.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,22 +9,17 @@ import android.widget.GridView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.bumptech.glide.Glide
-import com.google.android.material.bottomnavigation.BottomNavigationMenu
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.bumptech.glide.request.target.Target
 import com.secbreel.notes.R
-import com.secbreel.notes.model.Category
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class CategoriesListFragment() : Fragment() {
+class CategoriesListFragment() : androidx.fragment.app.Fragment() {
     private val viewModel by viewModel<CategoriesListViewModel>()
     private lateinit var adapter: CategoriesAdapter
     var disposable: Disposable = Disposables.disposed()
@@ -42,10 +36,12 @@ class CategoriesListFragment() : Fragment() {
             navigationController.navigate(R.id.action_categoriesListFragment2_to_createCategoryActivity)
         }
         adapter = CategoriesAdapter { view, category ->
-            Glide
+            GlideApp
                 .with(this)
                 .load(category.imagePath)
-                .placeholder(R.drawable.test_background)
+                .override(Target.SIZE_ORIGINAL)
+                .placeholder(R.drawable.ic_baseline_image_24)
+                .centerCrop()
                 .into(view.findViewById(R.id.categoryBackground))
             view.findViewById<CardView>(R.id.categoryItem).setOnClickListener {
                 val bundle = Bundle()
