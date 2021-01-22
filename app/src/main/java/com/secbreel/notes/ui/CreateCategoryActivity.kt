@@ -61,7 +61,6 @@ class CreateCategoryActivity : AppCompatActivity() {
                     Glide
                         .with(this)
                         .load(bitmap)
-                        .placeholder(R.drawable.ic_baseline_image_24)
                         .centerCrop()
                         .into(backgroundIconView)
                 }

@@ -66,5 +66,6 @@ class ApplicationActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
+
 }
 
