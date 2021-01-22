@@ -11,7 +11,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationMenu
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.secbreel.notes.R
 import com.secbreel.notes.model.Category
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,6 +29,7 @@ class CategoriesListFragment() : Fragment() {
     private val viewModel by viewModel<CategoriesListViewModel>()
     private lateinit var adapter: CategoriesAdapter
     var disposable: Disposable = Disposables.disposed()
+    private lateinit var navigationController : NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,8 +37,9 @@ class CategoriesListFragment() : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_categories_list, null)
         val categoriesGrid = rootView.findViewById<GridView>(R.id.categoriesGrid)
+        navigationController = Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
         rootView.findViewById<Button>(R.id.addCategoryButton).setOnClickListener {
-            startActivity(Intent(activity, CreateCategoryActivity::class.java))
+            navigationController.navigate(R.id.action_categoriesListFragment2_to_createCategoryActivity)
         }
         adapter = CategoriesAdapter { view, category ->
             Glide
@@ -41,14 +48,10 @@ class CategoriesListFragment() : Fragment() {
                 .placeholder(R.drawable.test_background)
                 .into(view.findViewById(R.id.categoryBackground))
             view.findViewById<CardView>(R.id.categoryItem).setOnClickListener {
-                parentFragmentManager.beginTransaction()
-                    .replace(
-                        R.id.fragmentContainer,
-                        CategoryScreenFragment(category),
-                        "CATEGORY_SCREEN"
-                    )
-                    .addToBackStack(null)
-                    .commit()
+                val bundle = Bundle()
+                bundle.putInt("arg1", category.id!!)
+                bundle.putString("arg2", category.title)
+                navigationController.navigate(R.id.action_categoriesListFragment2_to_categoryScreenFragment3, bundle)
 
             }
             view.findViewById<TextView>(R.id.categoryTitle).text = category.title
@@ -65,9 +68,16 @@ class CategoriesListFragment() : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        setUpToolBar()
         disposable = viewModel.categories
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext(adapter::submitList)
             .subscribe()
+    }
+
+    private fun setUpToolBar() {
+        val toolBar = (activity as AppCompatActivity?)!!.supportActionBar
+        toolBar?.title = "Categories"
+        toolBar?.setDisplayHomeAsUpEnabled(false)
     }
 }

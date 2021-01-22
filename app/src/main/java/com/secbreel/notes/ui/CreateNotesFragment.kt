@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.secbreel.notes.R
 import com.secbreel.notes.model.Category
@@ -21,9 +24,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class CreateNotesFragment(val category: Category) : Fragment() {
+class CreateNotesFragment() : Fragment() {
 
     private val viewModel by viewModel<CreateNotesViewModel>()
+    private var categoryId: Int = 0
+    private lateinit var categoryTitle: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,17 +36,19 @@ class CreateNotesFragment(val category: Category) : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_create_notes, container, false)
-        rootView.findViewById<TextView>(R.id.categoryName).text = category.title
-
+        categoryId = arguments?.getInt("arg1")!!
+        categoryTitle = arguments?.getString("arg2")!!
+        rootView.findViewById<TextView>(R.id.categoryName).text = categoryTitle
         rootView.findViewById<FloatingActionButton>(R.id.saveNote).setOnClickListener {
             val title: String = view?.findViewById<EditText>(R.id.noteTitle)?.text.toString()
             val text: String = view?.findViewById<EditText>(R.id.noteText)?.text.toString()
-            viewModel.saveNote(title, text, category.id!!)
+            viewModel.saveNote(title, text, categoryId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete {
-                    parentFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, CategoryScreenFragment(category), null)
-                        .addToBackStack(null).commit()
+                    Navigation.findNavController(
+                        activity as AppCompatActivity,
+                        R.id.nav_host_fragment
+                    ).popBackStack()
                 }
                 .subscribe()
         }

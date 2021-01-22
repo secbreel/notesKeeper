@@ -1,12 +1,16 @@
 package com.secbreel.notes.di
 
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.room.Room
+import com.secbreel.notes.R
 import com.secbreel.notes.model.Category
 import com.secbreel.notes.persistance.CategoryDatabase
 import com.secbreel.notes.persistance.CategoryRepository
 import com.secbreel.notes.persistance.NoteDatabase
 import com.secbreel.notes.persistance.NoteRepository
 import com.secbreel.notes.ui.*
+import kotlinx.android.synthetic.main.activity_application.*
 import kotlinx.android.synthetic.main.fragment_categories_list.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -29,6 +33,7 @@ val app = module {
     }
     factory { CategoryRepository(dao = get()) }
     factory { NoteRepository(dao = get()) }
+
     viewModel<CategoriesListViewModel> {
         CategoriesListViewModel(
             repository = get()

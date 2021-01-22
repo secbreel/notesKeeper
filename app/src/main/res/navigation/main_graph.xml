@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/navigation_categories">
+
+    <fragment
+        android:id="@+id/navigation_categories"
+        android:name="com.secbreel.notes.ui.CategoriesListFragment"
+        android:label="fragment_categories_list"
+
+        tools:layout="@layout/fragment_categories_list">
+        <action
+            android:id="@+id/action_categoriesListFragment2_to_categoryScreenFragment3"
+            app:destination="@id/categoryScreenFragment3" />
+        <action
+            android:id="@+id/action_categoriesListFragment2_to_createCategoryActivity"
+            app:destination="@id/createCategoryActivity" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_calendar"
+        android:name="com.secbreel.notes.ui.CalendarFragment"
+        android:label="fragment_calendar"
+        tools:layout="@layout/fragment_calendar" />
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.secbreel.notes.ui.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/categoryScreenFragment3"
+        android:name="com.secbreel.notes.ui.CategoryScreenFragment"
+        android:label="fragment_category_screen"
+
+        tools:layout="@layout/fragment_category_screen">
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+        <argument
+            android:name="categoryTitle"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_categoryScreenFragment3_to_createNotesFragment3"
+            app:destination="@id/createNotesFragment3" />
+    </fragment>
+    <fragment
+        android:id="@+id/createNotesFragment3"
+        android:name="com.secbreel.notes.ui.CreateNotesFragment"
+        android:label="fragment_create_notes"
+        tools:layout="@layout/fragment_create_notes">
+        <argument
+            android:name="categoryId"
+            app:argType="integer" />
+        <argument
+            android:name="categoryTitle"
+            app:argType="string" />
+    </fragment>
+    <activity
+        android:id="@+id/createCategoryActivity"
+        android:name="com.secbreel.notes.ui.CreateCategoryActivity"
+        android:label="activity_create_category"
+        tools:layout="@layout/activity_create_category" />
+</navigation>

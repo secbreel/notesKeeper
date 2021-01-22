@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -26,30 +28,39 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class CategoryScreenFragment(val category: Category) : Fragment() {
+class CategoryScreenFragment() : Fragment() {
 
-    //private val repository by inject<NoteRepository>()
+    private var categoryId: Int = 0
+    private lateinit var categoryTitle: String
     private val viewModel by viewModel<CategoryScreenViewModel>()
     var disposable: Disposable = Disposables.disposed()
+    private lateinit var navigationController: NavController
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_category_screen, container, false)
-        //viewModel.categoryId = category.id
-        (activity as AppCompatActivity?)!!.supportActionBar?.title = category.title
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.notesList)
+        categoryTitle = arguments?.getString("arg2")!!
+        categoryId = arguments?.getInt("arg1")!!
+        (activity as AppCompatActivity?)!!.supportActionBar?.title = categoryTitle
         val layoutManager = LinearLayoutManager(this.context)
         recyclerView.layoutManager = layoutManager
-
+        navigationController =
+            Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
         rootView.findViewById<FloatingActionButton>(R.id.addNote).setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, CreateNotesFragment(category), null)
-                .addToBackStack(null).commit()
+            val bundle = Bundle()
+            bundle.putInt("arg1", categoryId)
+            bundle.putString("arg2", categoryTitle)
+            navigationController.navigate(
+                R.id.action_categoryScreenFragment3_to_createNotesFragment3,
+                bundle
+            )
         }
 
-        disposable = viewModel.getNotes(category.id!!)
+        disposable = viewModel.getNotes(categoryId)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { items ->
                 recyclerView.adapter =
@@ -62,9 +73,9 @@ class CategoryScreenFragment(val category: Category) : Fragment() {
                             ListItem.TYPE_NOTE -> {
                                 val note: Note = item as Note
 
-                                    view.findViewById<TextView>(R.id.noteName).text = note.title
-                                    view.findViewById<TextView>(R.id.noteCreationDate).text =
-                                        note.date
+                                view.findViewById<TextView>(R.id.noteName).text = note.title
+                                view.findViewById<TextView>(R.id.noteCreationDate).text =
+                                    note.date
                             }
                         }
                     }
@@ -79,5 +90,4 @@ class CategoryScreenFragment(val category: Category) : Fragment() {
         super.onDestroyView()
         disposable.dispose()
     }
-
 }

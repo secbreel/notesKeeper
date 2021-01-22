@@ -16,12 +16,11 @@ import kotlin.collections.HashMap
 
 class CategoryScreenViewModel(private val repository: NoteRepository) : ViewModel() {
 
-    fun getNotes(categoryId: Int): io.reactivex.Observable<List<ListItem>> {
-        return repository.observeAll(categoryId)
+    fun getNotes(categoryId: Int): io.reactivex.Observable<List<ListItem>> =
+        repository.observeAll(categoryId)
             .map { notes ->
                 getSortedList(getGroupedHashList(notes))
             }.subscribeOn(Schedulers.io())
-    }
 
 
     private fun getGroupedHashList(notesList: List<Note>): HashMap<String, MutableList<Note>> {
