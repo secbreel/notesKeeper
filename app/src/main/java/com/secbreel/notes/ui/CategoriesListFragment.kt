@@ -64,16 +64,9 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
 
     override fun onResume() {
         super.onResume()
-        setUpToolBar()
         disposable = viewModel.categories
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext(adapter::submitList)
             .subscribe()
-    }
-
-    private fun setUpToolBar() {
-        val toolBar = (activity as AppCompatActivity?)!!.supportActionBar
-        toolBar?.title = "Categories"
-        toolBar?.setDisplayHomeAsUpEnabled(false)
     }
 }

@@ -44,17 +44,29 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/notesCount"
+            android:id="@+id/notesCountHelper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif"
-            android:text="TextView"
+            android:text="notes:"
             android:textColor="#CCCCCC"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/categoryBackground"
-            app:layout_constraintTop_toTopOf="@+id/categoryBackground" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/notesCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif"
+            android:text="1000"
+            android:textColor="#CCCCCC"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/notesCountHelper"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/categoryTitle"

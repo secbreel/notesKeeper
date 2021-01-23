@@ -1,23 +1,22 @@
 package com.secbreel.notes.ui
 
-import android.database.Observable
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
-import com.secbreel.notes.model.Category
 import com.secbreel.notes.model.DateItem
 import com.secbreel.notes.model.Note
+import com.secbreel.notes.persistance.CategoryRepository
 import com.secbreel.notes.persistance.NoteRepository
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 
-class CategoryScreenViewModel(private val repository: NoteRepository) : ViewModel() {
+class CategoryScreenViewModel(private val notesRepository: NoteRepository, private val categoryRepository: CategoryRepository) : ViewModel() {
 
     fun getNotes(categoryId: Int): io.reactivex.Observable<List<ListItem>> =
-        repository.observeAll(categoryId)
+        notesRepository.observeAll(categoryId)
+            .doOnNext {notes ->
+                categoryRepository.updateNotesCount(categoryId, notes.size)
+            }
             .map { notes ->
                 getSortedList(getGroupedHashList(notes))
             }.subscribeOn(Schedulers.io())

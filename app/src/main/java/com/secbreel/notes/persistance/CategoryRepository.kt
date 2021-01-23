@@ -14,4 +14,5 @@ class CategoryRepository(private val dao : CategoryDAO) {
     fun clear() = dao.clear()
 
     fun insert(category: Category) = dao.insert(category)
+    fun updateNotesCount(categoryId : Int, notesCount : Int) = dao.updateNotesCount(categoryId, notesCount)
 }

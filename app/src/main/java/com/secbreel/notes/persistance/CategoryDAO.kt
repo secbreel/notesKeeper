@@ -24,4 +24,7 @@ interface CategoryDAO {
 
     @Insert
     fun insert(category: Category) : Completable
+
+    @Query("Update Category SET notesCount = :notesCount WHERE id = :categoryId")
+    fun updateNotesCount(categoryId : Int, notesCount : Int)
 }

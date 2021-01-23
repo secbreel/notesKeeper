@@ -22,7 +22,9 @@ class SettingsFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_settings, container, false)
 
         rootView.findViewById<Button>(R.id.clearCategories).setOnClickListener {
-            viewModel.repositoryClear
+            viewModel.categoryRepositoryClear
+                .subscribe()
+            viewModel.notesRepositoryClear
                 .subscribe()
             Toast.makeText(requireContext(), "CATEGORIES CLEARED!", Toast.LENGTH_SHORT).show()
         }
