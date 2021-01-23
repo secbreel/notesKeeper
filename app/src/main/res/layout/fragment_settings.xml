@@ -8,11 +8,11 @@
     tools:context=".ui.SettingsFragment">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/settingsIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:src="@drawable/ic_baseline_settings_24"
+        tools:src="@drawable/ic_baseline_settings_24"
         app:layout_constraintBottom_toTopOf="@+id/clearCategories"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

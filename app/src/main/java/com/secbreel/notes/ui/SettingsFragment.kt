@@ -20,7 +20,12 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_settings, container, false)
-
+        GlideApp
+            .with(this)
+            .load("")
+            .error(R.drawable.ic_baseline_settings_24)
+            .centerCrop()
+            .into(rootView.findViewById(R.id.settingsIcon))
         rootView.findViewById<Button>(R.id.clearCategories).setOnClickListener {
             viewModel.categoryRepositoryClear
                 .subscribe()
