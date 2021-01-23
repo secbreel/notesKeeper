@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="@color/design_default_color_primary"
+    app:cardBackgroundColor="?attr/colorPrimary"
     app:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:text="Note name"
-            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +33,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="13.01.2021"
-            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/noteName" />

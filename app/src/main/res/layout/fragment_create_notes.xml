@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@color/design_default_color_background"
+        android:background="@android:color/transparent"
         android:ems="10"
         android:hint="Note title"
         android:inputType="textPersonName"
@@ -28,6 +28,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif"
         android:text="Category A"
+        android:textColor="?attr/colorOnBackground"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +55,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/design_default_color_background"
+        android:background="@android:color/transparent"
         android:ems="10"
         android:gravity="top"
         android:hint="Type note text here"
@@ -70,9 +71,13 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
+        android:backgroundTint="?attr/colorPrimary"
         android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_baseline_done_24"
+        android:theme="@style/Theme.Notes"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="?attr/colorOnPrimary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
