@@ -3,6 +3,7 @@ package com.secbreel.notes.ui
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -22,7 +23,9 @@ class CreateCategoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_category)
+        setSupportActionBar(findViewById(R.id.mainToolBar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "create category"
 
         backgroundIconView = findViewById(R.id.categoryIcon)
 
@@ -62,10 +65,17 @@ class CreateCategoryActivity : AppCompatActivity() {
                     GlideApp
                         .with(this)
                         .load(bitmap)
+                        .thumbnail(0.8f)
                         .centerCrop()
                         .into(backgroundIconView)
                 }
                 .subscribe()
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == android.R.id.home)
+            finish()
+        return super.onOptionsItemSelected(item)
     }
 }

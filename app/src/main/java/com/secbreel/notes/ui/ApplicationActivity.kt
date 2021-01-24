@@ -63,7 +63,6 @@ class ApplicationActivity : AppCompatActivity() {
 
     private fun setUpToolBar() {
         setSupportActionBar(findViewById(R.id.mainToolBar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
 

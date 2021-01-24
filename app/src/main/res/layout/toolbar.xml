@@ -8,5 +8,4 @@
     android:theme="@style/Toolbar"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:title="TEST" />
+    app:layout_constraintTop_toTopOf="parent" />
