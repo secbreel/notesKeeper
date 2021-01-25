@@ -46,6 +46,7 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
                 .with(this)
                 .load(category.imagePath)
                 .centerCrop()
+                .placeholder(R.drawable.ic_baseline_image_24)
                 .error(R.drawable.ic_baseline_image_24)
                 .into(view.findViewById(R.id.categoryBackground))
             view.findViewById<CardView>(R.id.categoryItem).setOnClickListener {

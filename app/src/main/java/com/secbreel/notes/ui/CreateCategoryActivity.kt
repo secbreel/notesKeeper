@@ -32,7 +32,7 @@ class CreateCategoryActivity : AppCompatActivity() {
         GlideApp
             .with(this)
             .load("")
-            .error(R.drawable.ic_baseline_image_24)
+            .error(R.drawable.ic_baseline_image_search_24)
             .centerCrop()
             .into(backgroundIconView)
 
@@ -65,7 +65,7 @@ class CreateCategoryActivity : AppCompatActivity() {
                     GlideApp
                         .with(this)
                         .load(bitmap)
-                        .thumbnail(0.8f)
+                        .placeholder(R.drawable.ic_baseline_image_search_24)
                         .centerCrop()
                         .into(backgroundIconView)
                 }
