@@ -1,11 +1,15 @@
 package com.secbreel.notes.ui
 
+import android.media.Image
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridView
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -17,6 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
 
 
 class CategoriesListFragment() : androidx.fragment.app.Fragment() {
@@ -32,6 +37,7 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_categories_list, null)
         val categoriesGrid = rootView.findViewById<GridView>(R.id.categoriesGrid)
         navigationController = Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
+
         rootView.findViewById<Button>(R.id.addCategoryButton).setOnClickListener {
             navigationController.navigate(R.id.action_categoriesListFragment2_to_createCategoryActivity)
         }
@@ -39,9 +45,8 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
             GlideApp
                 .with(this)
                 .load(category.imagePath)
-                .override(Target.SIZE_ORIGINAL)
-                .error(R.drawable.ic_baseline_image_24)
                 .centerCrop()
+                .error(R.drawable.ic_baseline_image_24)
                 .into(view.findViewById(R.id.categoryBackground))
             view.findViewById<CardView>(R.id.categoryItem).setOnClickListener {
                 val bundle = Bundle()
