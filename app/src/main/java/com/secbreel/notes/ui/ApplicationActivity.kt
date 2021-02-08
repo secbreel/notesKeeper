@@ -22,7 +22,7 @@ class ApplicationActivity : AppCompatActivity() {
 
     val READ_STORAGE_REQUEST_CODE = 500
     val WRITE_STORAGE_REQUEST_CODE = 501
-    lateinit var navigationController : NavController
+    lateinit var navigationController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +33,20 @@ class ApplicationActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.mainToolBar))
 
         getPermissions()
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_categories, R.id.navigation_calendar, R.id.navigation_settings))
-        findViewById<androidx.appcompat.widget.Toolbar>(R.id.mainToolBar).setupWithNavController(navigationController, appBarConfiguration)
-        findViewById<BottomNavigationView>(R.id.bottomNavigation).setupWithNavController(navigationController)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_categories,
+                R.id.navigation_calendar,
+                R.id.navigation_settings
+            )
+        )
+        findViewById<androidx.appcompat.widget.Toolbar>(R.id.mainToolBar).setupWithNavController(
+            navigationController,
+            appBarConfiguration
+        )
+        findViewById<BottomNavigationView>(R.id.bottomNavigation).setupWithNavController(
+            navigationController
+        )
     }
 
     private fun getPermissions() {
