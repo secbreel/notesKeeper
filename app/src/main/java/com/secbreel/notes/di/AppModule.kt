@@ -36,7 +36,8 @@ val app = module {
     viewModel<SettingsFragmentViewModel> {
         SettingsFragmentViewModel(
             categoryRepository = get(),
-            notesRepository = get()
+            notesRepository = get(),
+            app = get()
         )
     }
 
