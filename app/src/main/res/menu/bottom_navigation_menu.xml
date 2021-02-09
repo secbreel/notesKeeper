@@ -3,16 +3,13 @@
     <item
         android:id="@+id/navigation_categories"
         android:icon="@android:drawable/ic_dialog_dialer"
-        android:menuCategory="secondary"
         android:title="categories" />
     <item
         android:id="@+id/navigation_calendar"
         android:icon="@drawable/ic_baseline_calendar_today_24"
-        android:menuCategory="secondary"
         android:title="calendar" />
     <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_baseline_settings_24"
-        android:menuCategory="secondary"
         android:title="settings" />
 </menu>
