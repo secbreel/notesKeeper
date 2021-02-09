@@ -1,11 +1,13 @@
 package com.secbreel.notes.ui
 
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
@@ -27,9 +29,11 @@ class ApplicationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_application)
+        AppCompatDelegate.setDefaultNightMode(
+            getSharedPreferences("preferences", MODE_PRIVATE).getInt("theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        )
         setUpToolBar()
         navigationController = Navigation.findNavController(this, R.id.nav_host_fragment)
-
         setSupportActionBar(findViewById(R.id.mainToolBar))
 
         getPermissions()
@@ -75,7 +79,6 @@ class ApplicationActivity : AppCompatActivity() {
     private fun setUpToolBar() {
         setSupportActionBar(findViewById(R.id.mainToolBar))
     }
-
 
 }
 

@@ -1,7 +1,12 @@
 package com.secbreel.notes.ui
 
 import android.app.Application
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Environment
+import android.preference.PreferenceManager
+import android.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import com.secbreel.notes.persistance.CategoryRepository
 import com.secbreel.notes.persistance.NoteRepository
@@ -23,5 +28,9 @@ class SettingsFragmentViewModel(
             for (picture in storageDir.listFiles()!!) {
                 picture.delete()
             }
+    }
+
+    fun saveThemeMode(theme : Int) {
+        app.getSharedPreferences("preferences", MODE_PRIVATE).edit().putInt("theme", theme).apply()
     }
 }

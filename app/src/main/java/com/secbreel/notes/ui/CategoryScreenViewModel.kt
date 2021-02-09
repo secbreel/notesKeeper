@@ -54,6 +54,6 @@ class CategoryScreenViewModel(private val notesRepository: NoteRepository, priva
 
     private fun convertDate(dateString: String): String {
         val date = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)
-        return SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(date!!)
+        return SimpleDateFormat("LLLL yyyy", Locale.getDefault()).format(date!!)
     }
 }

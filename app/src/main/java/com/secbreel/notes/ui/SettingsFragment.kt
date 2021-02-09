@@ -2,12 +2,14 @@ package com.secbreel.notes.ui
 
 import android.app.ActivityManager
 import android.content.Context.ACTIVITY_SERVICE
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
@@ -22,32 +24,47 @@ class SettingsFragment : Fragment() {
     private val viewModel by viewModel<SettingsFragmentViewModel>()
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_settings, container, false)
 
         rootView.findViewById<Button>(R.id.clearCategories).setOnClickListener {
             viewModel.categoryRepositoryClear
-                    .subscribe()
+                .subscribe()
             viewModel.notesRepositoryClear
-                    .subscribe()
+                .subscribe()
             Toast.makeText(requireContext(), "CATEGORIES CLEARED!", Toast.LENGTH_SHORT).show()
         }
-
-        rootView.findViewById<RadioGroup>(R.id.themeChangingRadioGroup).setOnCheckedChangeListener { group, checkedId ->
-            when (checkedId) {
-                R.id.systemThemeSettingsButton -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                }
-                R.id.lightThemeSettingsButton -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                }
-                R.id.darkThemeSettingsButton -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
+        when (AppCompatDelegate.getDefaultNightMode()) {
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> {
+                rootView.findViewById<RadioButton>(R.id.systemThemeSettingsButton).isChecked = true
+            }
+            AppCompatDelegate.MODE_NIGHT_NO -> {
+                rootView.findViewById<RadioButton>(R.id.lightThemeSettingsButton).isChecked = true
+            }
+            AppCompatDelegate.MODE_NIGHT_YES -> {
+                rootView.findViewById<RadioButton>(R.id.darkThemeSettingsButton).isChecked = true
             }
         }
+
+        rootView.findViewById<RadioGroup>(R.id.themeChangingRadioGroup)
+            .setOnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    R.id.systemThemeSettingsButton -> {
+                        viewModel.saveThemeMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                    }
+                    R.id.lightThemeSettingsButton -> {
+                        viewModel.saveThemeMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    }
+                    R.id.darkThemeSettingsButton -> {
+                        viewModel.saveThemeMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    }
+                }
+            }
 
 
         return rootView
