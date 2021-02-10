@@ -1,4 +1,4 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.ui.settings
 
 import android.app.Application
 import android.content.Context.MODE_PRIVATE

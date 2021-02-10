@@ -6,6 +6,12 @@ import com.secbreel.notes.persistance.CategoryRepository
 import com.secbreel.notes.persistance.NoteDatabase
 import com.secbreel.notes.persistance.NoteRepository
 import com.secbreel.notes.ui.*
+import com.secbreel.notes.ui.categories_list.CategoriesListViewModel
+import com.secbreel.notes.ui.category_screen.CategoryScreenViewModel
+import com.secbreel.notes.ui.create_category.CreateCategoryViewModel
+import com.secbreel.notes.ui.create_note.CreateNotesViewModel
+import com.secbreel.notes.ui.settings.SettingsFragmentViewModel
+import com.secbreel.notes.usecases.AddNoteUseCase
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -25,6 +31,8 @@ val app = module {
             "notesDatabase"
         ).build()
     }
+
+    factory { AddNoteUseCase(noteRepository = get(), categoryRepository = get()) }
     factory { CategoryRepository(dao = get()) }
     factory { NoteRepository(dao = get()) }
 
@@ -51,5 +59,5 @@ val app = module {
         CategoryScreenViewModel(notesRepository = get(), categoryRepository = get())
     }
 
-    viewModel<CreateNotesViewModel> { CreateNotesViewModel(repository = get()) }
+    viewModel<CreateNotesViewModel> { CreateNotesViewModel(addNote = get()) }
 }

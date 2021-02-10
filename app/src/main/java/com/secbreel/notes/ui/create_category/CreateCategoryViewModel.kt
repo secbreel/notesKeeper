@@ -1,4 +1,4 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.ui.create_category
 
 import android.app.Application
 import android.graphics.Bitmap
@@ -10,7 +10,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import com.secbreel.notes.model.Category
-import com.secbreel.notes.model.Note
 import com.secbreel.notes.persistance.CategoryRepository
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers

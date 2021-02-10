@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_categories"
-        android:name="com.secbreel.notes.ui.CategoriesListFragment"
+        android:name="com.secbreel.notes.ui.categories_list.CategoriesListFragment"
         android:label="categories"
 
         tools:layout="@layout/fragment_categories_list">
@@ -21,17 +21,17 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_calendar"
-        android:name="com.secbreel.notes.ui.CalendarFragment"
+        android:name="com.secbreel.notes.ui.calendar.CalendarFragment"
         android:label="calendar"
         tools:layout="@layout/fragment_calendar" />
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.secbreel.notes.ui.SettingsFragment"
+        android:name="com.secbreel.notes.ui.settings.SettingsFragment"
         android:label="settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/categoryScreenFragment3"
-        android:name="com.secbreel.notes.ui.CategoryScreenFragment"
+        android:name="com.secbreel.notes.ui.category_screen.CategoryScreenFragment"
         android:label="fragment_category_screen"
 
         tools:layout="@layout/fragment_category_screen">
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/createNotesFragment3"
-        android:name="com.secbreel.notes.ui.CreateNotesFragment"
+        android:name="com.secbreel.notes.ui.create_note.CreateNotesFragment"
         android:label="create note"
         tools:layout="@layout/fragment_create_notes">
         <argument
@@ -59,7 +59,7 @@
     </fragment>
     <activity
         android:id="@+id/createCategoryActivity"
-        android:name="com.secbreel.notes.ui.CreateCategoryActivity"
+        android:name="com.secbreel.notes.ui.create_category.CreateCategoryActivity"
         android:label="create category"
         tools:layout="@layout/activity_create_category" />
 </navigation>

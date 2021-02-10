@@ -1,4 +1,4 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.ui.create_note
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,19 +8,12 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.secbreel.notes.R
-import com.secbreel.notes.model.Category
-import com.secbreel.notes.model.Note
-import com.secbreel.notes.persistance.NoteRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.compat.ScopeCompat.viewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -45,10 +38,8 @@ class CreateNotesFragment() : Fragment() {
             viewModel.saveNote(title, text, categoryId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete {
-                    Navigation.findNavController(
-                        activity as AppCompatActivity,
-                        R.id.nav_host_fragment
-                    ).popBackStack()
+
+                    findNavController().navigateUp()
                 }
                 .subscribe()
         }

@@ -1,10 +1,11 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.ui.category_screen
 
 import androidx.lifecycle.ViewModel
 import com.secbreel.notes.model.DateItem
 import com.secbreel.notes.model.Note
 import com.secbreel.notes.persistance.CategoryRepository
 import com.secbreel.notes.persistance.NoteRepository
+import com.secbreel.notes.model.ListItem
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*

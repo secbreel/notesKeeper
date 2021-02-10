@@ -1,4 +1,4 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.ui.calendar
 
 import android.os.Bundle
 import android.view.LayoutInflater

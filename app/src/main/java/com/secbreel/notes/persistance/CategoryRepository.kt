@@ -1,6 +1,7 @@
 package com.secbreel.notes.persistance
 
 import com.secbreel.notes.model.Category
+import io.reactivex.Completable
 
 
 class CategoryRepository(private val dao : CategoryDAO) {
@@ -14,5 +15,5 @@ class CategoryRepository(private val dao : CategoryDAO) {
     fun clear() = dao.clear()
 
     fun insert(category: Category) = dao.insert(category)
-    fun updateNotesCount(categoryId : Int, notesCount : Int) = dao.updateNotesCount(categoryId, notesCount)
+    fun updateNotesCount(categoryId : Int, notesCount : Int) : Completable = dao.updateNotesCount(categoryId, notesCount)
 }

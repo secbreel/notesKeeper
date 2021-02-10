@@ -1,27 +1,22 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.ui.categories_list
 
-import android.media.Image
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridView
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.bumptech.glide.request.target.Target
 import com.secbreel.notes.R
+import com.secbreel.notes.ui.GlideApp
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.File
 
 
 class CategoriesListFragment() : androidx.fragment.app.Fragment() {
@@ -42,8 +37,7 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
             navigationController.navigate(R.id.action_categoriesListFragment2_to_createCategoryActivity)
         }
         adapter = CategoriesAdapter { view, category ->
-            GlideApp
-                .with(this)
+            GlideApp.with(this)
                 .load(category.imagePath)
                 .centerCrop()
                 .placeholder(R.drawable.ic_baseline_image_24)

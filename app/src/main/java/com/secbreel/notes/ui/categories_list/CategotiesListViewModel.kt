@@ -1,4 +1,4 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.ui.categories_list
 
 import android.widget.TextView
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.ui.create_category
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.secbreel.notes.R
+import com.secbreel.notes.ui.GlideApp
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -29,8 +30,7 @@ class CreateCategoryActivity : AppCompatActivity() {
 
         backgroundIconView = findViewById(R.id.categoryIcon)
 
-        GlideApp
-            .with(this)
+        GlideApp.with(this)
             .load("")
             .error(R.drawable.ic_baseline_image_search_24)
             .centerCrop()
@@ -54,7 +54,7 @@ class CreateCategoryActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { //TODO callback
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             Observable.just(data?.data)
@@ -62,8 +62,7 @@ class CreateCategoryActivity : AppCompatActivity() {
                 .doOnNext { bitmapUri -> viewModel.saveImage(bitmapUri!!) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { bitmap ->
-                    GlideApp
-                        .with(this)
+                    GlideApp.with(this)
                         .load(bitmap)
                         .placeholder(R.drawable.ic_baseline_image_search_24)
                         .centerCrop()

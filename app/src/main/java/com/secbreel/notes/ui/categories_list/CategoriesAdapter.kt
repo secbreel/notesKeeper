@@ -1,16 +1,10 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.ui.categories_list
 
-import android.app.Application
-import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.Toast
 import com.secbreel.notes.R
-import com.secbreel.notes.di.app
 import com.secbreel.notes.model.Category
-import kotlinx.android.synthetic.main.activity_application.view.*
 
 class CategoriesAdapter(private val initialCategoriesList : List<Category> = listOf(), private val binding : (View, Category) -> Unit) : BaseAdapter() {
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="100"
-    tools:context=".ui.SettingsFragment">
+    tools:context=".ui.settings.SettingsFragment">
 
     <TextView
         android:id="@+id/textView"
@@ -37,7 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:buttonTint="?attr/colorPrimary"
-            android:checked="true"
             android:text="System theme" />
 
         <RadioButton
