@@ -10,20 +10,19 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class AddNoteUseCase(private val noteRepository: NoteRepository, private val categoryRepository: CategoryRepository) {
-    operator fun invoke(title : String, text : String, categoryId : Int) : Completable {
+class AddNoteUseCase(
+    private val noteRepository: NoteRepository,
+    private val categoryRepository: CategoryRepository
+) {
+    operator fun invoke(title: String, text: String, categoryId: Int) : Completable {
         return noteRepository.insert(Note(title, text, getDate(), categoryId))
-            .andThen{
+            .andThen (
                 noteRepository.observeAll(categoryId)
                     .firstOrError()
-                    .doOnError {
-                        Log.e("MYTAG", "error " ,it)
+                    .flatMapCompletable { list ->
+                        categoryRepository.updateNotesCount(categoryId, list.size)
                     }
-                    .flatMapCompletable {
-                        categoryRepository.updateNotesCount(categoryId, it.size)
-                    }
-            }
-            .subscribeOn(Schedulers.io())
+            )
     }
 
     private fun getDate(): String {

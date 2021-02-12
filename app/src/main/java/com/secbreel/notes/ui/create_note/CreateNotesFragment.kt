@@ -1,6 +1,7 @@
 package com.secbreel.notes.ui.create_note
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,8 +39,10 @@ class CreateNotesFragment() : Fragment() {
             viewModel.saveNote(title, text, categoryId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete {
-
                     findNavController().navigateUp()
+                }
+                .doOnError{
+                    Log.e("MYTAG", "error", it)
                 }
                 .subscribe()
         }
