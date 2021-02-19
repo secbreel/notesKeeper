@@ -26,40 +26,37 @@ class SettingsFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_settings, container, false)
 
         rootView.findViewById<Button>(R.id.clearCategories).setOnClickListener {
-            viewModel.categoryRepositoryClear
-                .subscribe()
-            viewModel.notesRepositoryClear
-                .subscribe()
+            viewModel.clearCategories()
             Toast.makeText(requireContext(), "CATEGORIES CLEARED!", Toast.LENGTH_SHORT).show()
         }
         when (AppCompatDelegate.getDefaultNightMode()) {
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> {
-                rootView.findViewById<RadioButton>(R.id.systemThemeSettingsButton).isChecked = true
-            }
             AppCompatDelegate.MODE_NIGHT_NO -> {
                 rootView.findViewById<RadioButton>(R.id.lightThemeSettingsButton).isChecked = true
             }
             AppCompatDelegate.MODE_NIGHT_YES -> {
                 rootView.findViewById<RadioButton>(R.id.darkThemeSettingsButton).isChecked = true
             }
+            else -> {
+                rootView.findViewById<RadioButton>(R.id.systemThemeSettingsButton).isChecked = true
+            }
         }
 
         rootView.findViewById<RadioGroup>(R.id.themeChangingRadioGroup)
             .setOnCheckedChangeListener { group, checkedId ->
+                var theme : Int = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                 when (checkedId) {
                     R.id.systemThemeSettingsButton -> {
-                        viewModel.saveThemeMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                        theme = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
                     }
                     R.id.lightThemeSettingsButton -> {
-                        viewModel.saveThemeMode(AppCompatDelegate.MODE_NIGHT_NO)
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        theme = AppCompatDelegate.MODE_NIGHT_NO
                     }
                     R.id.darkThemeSettingsButton -> {
-                        viewModel.saveThemeMode(AppCompatDelegate.MODE_NIGHT_YES)
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        theme = AppCompatDelegate.MODE_NIGHT_YES
                     }
                 }
+                viewModel.saveThemeMode(theme)
+                AppCompatDelegate.setDefaultNightMode(theme)
             }
 
 

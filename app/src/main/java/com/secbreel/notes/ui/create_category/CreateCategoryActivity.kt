@@ -1,12 +1,15 @@
 package com.secbreel.notes.ui.create_category
 
+import android.app.Instrumentation
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.secbreel.notes.R
 import com.secbreel.notes.ui.GlideApp
@@ -20,6 +23,22 @@ class CreateCategoryActivity : AppCompatActivity() {
     val PICK_IMAGE = 1000
     lateinit var backgroundIconView: ImageView
     private val viewModel by viewModel<CreateCategoryViewModel>()
+
+    private val getImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        Observable.just(uri)
+            .subscribeOn(Schedulers.io())
+            .doOnNext { bitmapUri -> viewModel.saveImage(bitmapUri!!) }
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { bitmap ->
+                GlideApp.with(this)
+                    .load(bitmap)
+                    .placeholder(R.drawable.ic_baseline_image_search_24)
+                    .centerCrop()
+                    .into(backgroundIconView)
+            }
+            .subscribe()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,12 +56,7 @@ class CreateCategoryActivity : AppCompatActivity() {
             .into(backgroundIconView)
 
         backgroundIconView.setOnClickListener {
-            val intent = Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            )
-            intent.type = "image/*"
-            startActivityForResult(intent, PICK_IMAGE)
+            getImage.launch("image/")
         }
 
 
@@ -54,23 +68,6 @@ class CreateCategoryActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { //TODO callback
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            Observable.just(data?.data)
-                .subscribeOn(Schedulers.io())
-                .doOnNext { bitmapUri -> viewModel.saveImage(bitmapUri!!) }
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { bitmap ->
-                    GlideApp.with(this)
-                        .load(bitmap)
-                        .placeholder(R.drawable.ic_baseline_image_search_24)
-                        .centerCrop()
-                        .into(backgroundIconView)
-                }
-                .subscribe()
-        }
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == android.R.id.home)

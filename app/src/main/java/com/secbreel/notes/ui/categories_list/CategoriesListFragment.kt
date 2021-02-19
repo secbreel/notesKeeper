@@ -16,6 +16,7 @@ import com.secbreel.notes.ui.GlideApp
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
+import kotlinx.android.synthetic.main.activity_application.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -31,7 +32,6 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_categories_list, null)
         val categoriesGrid = rootView.findViewById<GridView>(R.id.categoriesGrid)
-        navigationController = Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
 
         rootView.findViewById<Button>(R.id.addCategoryButton).setOnClickListener {
             navigationController.navigate(R.id.action_categoriesListFragment2_to_createCategoryActivity)
@@ -47,7 +47,7 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
                 val bundle = Bundle()
                 bundle.putInt("arg1", category.id!!)
                 bundle.putString("arg2", category.title)
-                navigationController.navigate(R.id.action_categoriesListFragment2_to_categoryScreenFragment3, bundle)
+               navigationController.navigate(R.id.action_categoriesListFragment2_to_categoryScreenFragment3, bundle)
 
             }
             view.findViewById<TextView>(R.id.categoryTitle).text = category.title
@@ -64,6 +64,7 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
 
     override fun onResume() {
         super.onResume()
+        navigationController = Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
         disposable = viewModel.categories
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext(adapter::submitList)

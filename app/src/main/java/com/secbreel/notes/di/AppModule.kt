@@ -11,14 +11,14 @@ import com.secbreel.notes.ui.category_screen.CategoryScreenViewModel
 import com.secbreel.notes.ui.create_category.CreateCategoryViewModel
 import com.secbreel.notes.ui.create_note.CreateNotesViewModel
 import com.secbreel.notes.ui.settings.SettingsFragmentViewModel
-import com.secbreel.notes.usecases.AddNoteUseCase
+import com.secbreel.notes.usecases.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val app = module {
     single { get<CategoryDatabase>().categoryDao() }
-    single { get<NoteDatabase>().noteDao()}
+    single { get<NoteDatabase>().noteDao() }
     single {
         Room.databaseBuilder(
             androidContext(), CategoryDatabase::class.java,
@@ -33,19 +33,30 @@ val app = module {
     }
 
     factory { AddNoteUseCase(noteRepository = get(), categoryRepository = get()) }
+    factory { GetCategoriesUseCase(categoryRepository = get()) }
+    factory { NotesRepositoryClearUseCase(notesRepository = get()) }
+    factory { CategoryRepositoryClearUseCase(categoryRepository = get()) }
+    factory { ClearPicturesUseCase(app = get()) }
+    factory { SavePreferencesUseCase(app = get()) }
+    factory {
+        ClearDataUseCase(
+            categoryRepositoryClear = get(),
+            notesRepositoryClear = get(),
+            clearPictures = get()
+        )
+    }
     factory { CategoryRepository(dao = get()) }
     factory { NoteRepository(dao = get()) }
 
     viewModel<CategoriesListViewModel> {
         CategoriesListViewModel(
-            repository = get()
+            getCategories = get()
         )
     }
     viewModel<SettingsFragmentViewModel> {
         SettingsFragmentViewModel(
-            categoryRepository = get(),
-            notesRepository = get(),
-            app = get()
+            clearData = get(),
+            savePreferences = get()
         )
     }
 

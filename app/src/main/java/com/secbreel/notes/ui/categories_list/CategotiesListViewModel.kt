@@ -1,21 +1,14 @@
 package com.secbreel.notes.ui.categories_list
 
-import android.widget.TextView
 import androidx.lifecycle.ViewModel
-import com.bumptech.glide.Glide
-import com.secbreel.notes.R
 import com.secbreel.notes.model.Category
-import com.secbreel.notes.persistance.CategoryRepository
+import com.secbreel.notes.usecases.GetCategoriesUseCase
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
-import java.util.*
 
-class CategoriesListViewModel(private val repository: CategoryRepository) : ViewModel() {
+class CategoriesListViewModel(private val getCategories : GetCategoriesUseCase) : ViewModel() {
 
-    val categories : Observable<List<Category>> = repository.observeAll()
-        .subscribeOn(Schedulers.io())
+    val categories : Observable<List<Category>> = getCategories().subscribeOn(Schedulers.io())
 
 
 }

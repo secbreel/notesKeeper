@@ -28,6 +28,7 @@ class ApplicationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_application)
         AppCompatDelegate.setDefaultNightMode(
             getSharedPreferences("preferences", MODE_PRIVATE).getInt("theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
