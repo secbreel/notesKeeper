@@ -34,15 +34,12 @@ val app = module {
 
     factory { AddNoteUseCase(noteRepository = get(), categoryRepository = get()) }
     factory { GetCategoriesUseCase(categoryRepository = get()) }
-    factory { NotesRepositoryClearUseCase(notesRepository = get()) }
-    factory { CategoryRepositoryClearUseCase(categoryRepository = get()) }
-    factory { ClearPicturesUseCase(app = get()) }
     factory { SavePreferencesUseCase(app = get()) }
     factory {
         ClearDataUseCase(
-            categoryRepositoryClear = get(),
-            notesRepositoryClear = get(),
-            clearPictures = get()
+            categoryRepository = get(),
+            notesRepository = get(),
+            app = get()
         )
     }
     factory { CategoryRepository(dao = get()) }
