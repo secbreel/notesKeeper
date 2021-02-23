@@ -20,7 +20,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class CreateCategoryActivity : AppCompatActivity() {
-    val PICK_IMAGE = 1000
     lateinit var backgroundIconView: ImageView
     private val viewModel by viewModel<CreateCategoryViewModel>()
 
