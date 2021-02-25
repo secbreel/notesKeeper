@@ -36,6 +36,7 @@ val app = module {
     factory { GetCategoriesUseCase(categoryRepository = get()) }
     factory { SavePreferencesUseCase(app = get()) }
     factory { SavePictureUseCase(app = get()) }
+    factory { AddCategoryUseCase(categoryRepository = get()) }
     factory {
         ClearDataUseCase(
             categoryRepository = get(),
@@ -60,7 +61,7 @@ val app = module {
 
     viewModel<CreateCategoryViewModel> {
         CreateCategoryViewModel(
-            repository = get(),
+            addCategory = get(),
             savePicture = get()
         )
     }

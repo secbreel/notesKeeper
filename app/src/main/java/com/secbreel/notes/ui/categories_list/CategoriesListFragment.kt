@@ -41,7 +41,7 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
                 .load(category.imagePath)
                 .centerCrop()
                 .placeholder(R.drawable.ic_baseline_image_24)
-                .error(R.drawable.ic_baseline_image_24)
+                .error(R.drawable.ic_baseline_image_not_supported_24)
                 .into(view.findViewById(R.id.categoryBackground))
             view.findViewById<CardView>(R.id.categoryItem).setOnClickListener {
                 val bundle = Bundle()

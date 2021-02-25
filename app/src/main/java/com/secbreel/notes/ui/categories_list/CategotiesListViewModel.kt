@@ -7,8 +7,5 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
 class CategoriesListViewModel(private val getCategories : GetCategoriesUseCase) : ViewModel() {
-
     val categories : Observable<List<Category>> = getCategories().subscribeOn(Schedulers.io())
-
-
 }

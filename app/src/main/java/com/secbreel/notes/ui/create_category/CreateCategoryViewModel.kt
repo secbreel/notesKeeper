@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import com.secbreel.notes.model.Category
 import com.secbreel.notes.persistance.CategoryRepository
+import com.secbreel.notes.usecases.AddCategoryUseCase
 import com.secbreel.notes.usecases.SavePictureUseCase
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
@@ -19,15 +20,14 @@ import java.io.FileOutputStream
 import java.util.*
 
 class CreateCategoryViewModel(
-    private val repository: CategoryRepository,
+    private val addCategory: AddCategoryUseCase ,
     private val savePicture: SavePictureUseCase
 ) : ViewModel() {
 
-    private lateinit var currentPhotoPath : String
+    private var currentPhotoPath : String = ""
 
     fun addCategory(title: String): Completable {
-        return repository.insert(Category(title, 0, currentPhotoPath))
-            .subscribeOn(Schedulers.io())
+        return addCategory(title, currentPhotoPath).subscribeOn(Schedulers.io())
     }
 
     fun saveImage(uri: Uri) {
