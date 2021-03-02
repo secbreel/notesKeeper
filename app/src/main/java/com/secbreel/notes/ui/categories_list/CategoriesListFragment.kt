@@ -4,19 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.GridView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.secbreel.notes.R
+import com.secbreel.notes.databinding.FragmentCategoriesListBinding
+import com.secbreel.notes.databinding.ItemCategoryBinding
 import com.secbreel.notes.ui.GlideApp
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
-import kotlinx.android.synthetic.main.activity_application.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -25,33 +24,36 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
     private lateinit var adapter: CategoriesAdapter
     var disposable: Disposable = Disposables.disposed()
     private lateinit var navigationController : NavController
+    private lateinit var categoriesListViewBinding : FragmentCategoriesListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_categories_list, null)
-        val categoriesGrid = rootView.findViewById<GridView>(R.id.categoriesGrid)
+        categoriesListViewBinding = FragmentCategoriesListBinding.inflate(layoutInflater, container, false)
+        val rootView = categoriesListViewBinding.root
+        val categoriesGrid = categoriesListViewBinding.categoriesGrid
 
-        rootView.findViewById<Button>(R.id.addCategoryButton).setOnClickListener {
+        categoriesListViewBinding.addCategoryButton.setOnClickListener {
             navigationController.navigate(R.id.action_categoriesListFragment2_to_createCategoryActivity)
         }
         adapter = CategoriesAdapter { view, category ->
+            val categoryItemViewBinding = ItemCategoryBinding.bind(view)
             GlideApp.with(this)
                 .load(category.imagePath)
                 .centerCrop()
                 .placeholder(R.drawable.ic_baseline_image_24)
                 .error(R.drawable.ic_baseline_image_not_supported_24)
-                .into(view.findViewById(R.id.categoryBackground))
-            view.findViewById<CardView>(R.id.categoryItem).setOnClickListener {
+                .into(categoryItemViewBinding.categoryBackground)
+            categoryItemViewBinding.categoryItem.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putInt("arg1", category.id!!)
                 bundle.putString("arg2", category.title)
                navigationController.navigate(R.id.action_categoriesListFragment2_to_categoryScreenFragment3, bundle)
 
             }
-            view.findViewById<TextView>(R.id.categoryTitle).text = category.title
-            view.findViewById<TextView>(R.id.notesCount).text = "${category.notesCount}"
+            categoryItemViewBinding.categoryTitle.text = category.title
+            categoryItemViewBinding.notesCount.text = "${category.notesCount}"
         }
         categoriesGrid.adapter = adapter
         return rootView
