@@ -1,17 +1,13 @@
 package com.secbreel.notes.ui.create_category
 
-import android.app.Instrumentation
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.secbreel.notes.R
+import com.secbreel.notes.databinding.ActivityCreateCategoryBinding
 import com.secbreel.notes.ui.GlideApp
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,6 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class CreateCategoryActivity : AppCompatActivity() {
     lateinit var backgroundIconView: ImageView
     private val viewModel by viewModel<CreateCategoryViewModel>()
+    private lateinit var viewBinding : ActivityCreateCategoryBinding
 
     private val getImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         Observable.just(uri)
@@ -41,12 +38,13 @@ class CreateCategoryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_category)
-        setSupportActionBar(findViewById(R.id.mainToolBar))
+        viewBinding = ActivityCreateCategoryBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
+        setSupportActionBar(viewBinding.toolBar.mainToolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "create category"
 
-        backgroundIconView = findViewById(R.id.categoryIcon)
+        backgroundIconView = viewBinding.categoryIcon
 
         GlideApp.with(this)
             .load("")
@@ -59,8 +57,8 @@ class CreateCategoryActivity : AppCompatActivity() {
         }
 
 
-        findViewById<Button>(R.id.button).setOnClickListener {
-            viewModel.addCategory(findViewById<EditText>(R.id.editCategoryTitle).text.toString())
+        viewBinding.button.setOnClickListener {
+            viewModel.addCategory(viewBinding.editCategoryTitle.text.toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete { finish() }
                 .subscribe()

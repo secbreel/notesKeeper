@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.secbreel.notes.R
@@ -24,17 +22,17 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
     private lateinit var adapter: CategoriesAdapter
     var disposable: Disposable = Disposables.disposed()
     private lateinit var navigationController : NavController
-    private lateinit var categoriesListViewBinding : FragmentCategoriesListBinding
+    private lateinit var viewBinding : FragmentCategoriesListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        categoriesListViewBinding = FragmentCategoriesListBinding.inflate(layoutInflater, container, false)
-        val rootView = categoriesListViewBinding.root
-        val categoriesGrid = categoriesListViewBinding.categoriesGrid
+    ): View {
+        viewBinding = FragmentCategoriesListBinding.inflate(layoutInflater, container, false)
+        val rootView = viewBinding.root
+        val categoriesGrid = viewBinding.categoriesGrid
 
-        categoriesListViewBinding.addCategoryButton.setOnClickListener {
+        viewBinding.addCategoryButton.setOnClickListener {
             navigationController.navigate(R.id.action_categoriesListFragment2_to_createCategoryActivity)
         }
         adapter = CategoriesAdapter { view, category ->

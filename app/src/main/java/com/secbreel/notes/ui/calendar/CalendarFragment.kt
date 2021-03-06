@@ -5,24 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.request.target.Target
-import com.secbreel.notes.R
+import com.secbreel.notes.databinding.FragmentCalendarBinding
 
 
 class CalendarFragment : Fragment() {
 
+    private lateinit var viewBinding: FragmentCalendarBinding
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_calendar, container, false)
-        GlideApp
-            .with(this)
-            .load(R.drawable.anime_tyan)
-            .override(Target.SIZE_ORIGINAL)
-            .centerCrop()
-            .into(rootView.findViewById(R.id.calendarTestImage))
-
+    ): View {
+        viewBinding = FragmentCalendarBinding.inflate(layoutInflater, container, false)
+        val rootView = viewBinding.root
 
         return rootView
     }

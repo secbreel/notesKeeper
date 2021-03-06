@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.secbreel.notes.R
+import com.secbreel.notes.databinding.FragmentCategoryScreenBinding
+import com.secbreel.notes.databinding.ItemNoteBinding
+import com.secbreel.notes.databinding.ItemNoteDateBinding
 import com.secbreel.notes.model.DateItem
-import com.secbreel.notes.model.Note
 import com.secbreel.notes.model.ListItem
+import com.secbreel.notes.model.Note
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
@@ -28,14 +28,16 @@ class CategoryScreenFragment() : Fragment() {
     private val viewModel by viewModel<CategoryScreenViewModel>()
     var disposable: Disposable = Disposables.disposed()
     private lateinit var navigationController: NavController
+    private lateinit var viewBinding : FragmentCategoryScreenBinding
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_category_screen, container, false)
-        val recyclerView = rootView.findViewById<RecyclerView>(R.id.notesList)
+    ): View {
+        viewBinding = FragmentCategoryScreenBinding.inflate(layoutInflater, container, false)
+        val rootView = viewBinding.root
+        val recyclerView = viewBinding.notesList
         categoryTitle = arguments?.getString("arg2")!!
         categoryId = arguments?.getInt("arg1")!!
         (activity as AppCompatActivity?)!!.supportActionBar?.title = categoryTitle
@@ -43,7 +45,7 @@ class CategoryScreenFragment() : Fragment() {
         recyclerView.layoutManager = layoutManager
         navigationController =
             Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
-        rootView.findViewById<FloatingActionButton>(R.id.addNote).setOnClickListener {
+        viewBinding.addNote.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt("arg1", categoryId)
             bundle.putString("arg2", categoryTitle)
@@ -60,14 +62,15 @@ class CategoryScreenFragment() : Fragment() {
                     NotesAdapter(items) { view, item ->
                         when (item.getType()) {
                             ListItem.TYPE_DATE -> {
+                                val dateItemBinding = ItemNoteDateBinding.bind(view)
                                 val dateItem: DateItem = item as DateItem
-                                view.findViewById<TextView>(R.id.notesDate).text = dateItem.date
+                                dateItemBinding.notesDate.text = dateItem.date
                             }
                             ListItem.TYPE_NOTE -> {
+                                val noteItemBinding = ItemNoteBinding.bind(view)
                                 val note: Note = item as Note
-
-                                view.findViewById<TextView>(R.id.noteName).text = note.title
-                                view.findViewById<TextView>(R.id.noteCreationDate).text =
+                                noteItemBinding.noteName.text = note.title
+                                noteItemBinding.noteCreationDate.text =
                                     note.date
                             }
                         }

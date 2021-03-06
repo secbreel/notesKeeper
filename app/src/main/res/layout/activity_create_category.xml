@@ -7,7 +7,8 @@
     android:orientation="vertical"
     tools:context=".ui.create_category.CreateCategoryActivity">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolBar"/>
 
 
     <androidx.cardview.widget.CardView
@@ -21,7 +22,7 @@
         app:layout_constraintBottom_toTopOf="@+id/editCategoryTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainToolBar">
+        app:layout_constraintTop_toBottomOf="@+id/toolBar">
 
         <ImageView
             android:id="@+id/categoryIcon"

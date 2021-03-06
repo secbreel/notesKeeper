@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.ApplicationActivity">
 
-    <include layout="@layout/toolbar" />
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar" />
 
 
     <FrameLayout
@@ -16,7 +18,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainToolBar">
+        app:layout_constraintTop_toBottomOf="@+id/toolBar">
 
         <fragment
             android:id="@+id/nav_host_fragment"
