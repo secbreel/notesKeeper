@@ -50,30 +50,30 @@ val app = module {
     factory { CategoryRepository(dao = get()) }
     factory { NoteRepository(dao = get()) }
 
-    viewModel<CategoriesListViewModel> {
+    viewModel {
         CategoriesListViewModel(
             getCategories = get()
         )
     }
-    viewModel<SettingsFragmentViewModel> {
+    viewModel {
         SettingsFragmentViewModel(
             clearData = get(),
             savePreferences = get()
         )
     }
 
-    viewModel<CreateCategoryViewModel> {
+    viewModel {
         CreateCategoryViewModel(
             addCategory = get(),
             savePicture = get()
         )
     }
-    viewModel<CategoryScreenViewModel> {
+    viewModel {
         CategoryScreenViewModel(getNotesWithId = get(), getGroupedNotes = get())
     }
 
-    viewModel<CreateNotesViewModel> { CreateNotesViewModel(addNote = get()) }
+    viewModel { CreateNotesViewModel(addNote = get()) }
 
-    viewModel<CalendarViewModel> { CalendarViewModel(getAllNotes = get(), getGroupedNotes = get()) }
+    viewModel { CalendarViewModel(getAllNotes = get(), getGroupedNotes = get()) }
 
 }

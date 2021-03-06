@@ -21,8 +21,8 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
     private val viewModel by viewModel<CategoriesListViewModel>()
     private lateinit var adapter: CategoriesAdapter
     var disposable: Disposable = Disposables.disposed()
-    private lateinit var navigationController : NavController
-    private lateinit var viewBinding : FragmentCategoriesListBinding
+    private lateinit var navigationController: NavController
+    private lateinit var viewBinding: FragmentCategoriesListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +47,10 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
                 val bundle = Bundle()
                 bundle.putInt("arg1", category.id!!)
                 bundle.putString("arg2", category.title)
-               navigationController.navigate(R.id.action_categoriesListFragment2_to_categoryScreenFragment3, bundle)
+                navigationController.navigate(
+                    R.id.action_categoriesListFragment2_to_categoryScreenFragment3,
+                    bundle
+                )
 
             }
             categoryItemViewBinding.categoryTitle.text = category.title
@@ -64,7 +67,8 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
 
     override fun onResume() {
         super.onResume()
-        navigationController = Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
+        navigationController =
+            Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
         disposable = viewModel.categories
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext(adapter::submitList)

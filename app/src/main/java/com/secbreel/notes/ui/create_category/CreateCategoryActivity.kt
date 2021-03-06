@@ -1,9 +1,11 @@
 package com.secbreel.notes.ui.create_category
 
-import android.net.Uri
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.secbreel.notes.R
@@ -21,9 +23,9 @@ class CreateCategoryActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityCreateCategoryBinding
 
     private val getImage =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            if (uri != null) {
-                Observable.just(uri)
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                Observable.just(result.data?.data)
                     .subscribeOn(Schedulers.io())
                     .doOnNext { bitmapUri -> viewModel.saveImage(bitmapUri!!) }
                     .observeOn(AndroidSchedulers.mainThread())
@@ -56,7 +58,9 @@ class CreateCategoryActivity : AppCompatActivity() {
             .into(backgroundIconView)
 
         backgroundIconView.setOnClickListener {
-            getImage.launch("image/")
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            getImage.launch(intent)
         }
 
 

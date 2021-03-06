@@ -6,10 +6,13 @@ import android.widget.BaseAdapter
 import com.secbreel.notes.R
 import com.secbreel.notes.model.Category
 
-class CategoriesAdapter(private val initialCategoriesList : List<Category> = listOf(), private val binding : (View, Category) -> Unit) : BaseAdapter() {
+class CategoriesAdapter(
+    private val initialCategoriesList: List<Category> = listOf(),
+    private val binding: (View, Category) -> Unit
+) : BaseAdapter() {
 
-    private val categoriesList : MutableList<Category> = initialCategoriesList.toMutableList()
-    fun submitList(list : List<Category>) {
+    private val categoriesList: MutableList<Category> = initialCategoriesList.toMutableList()
+    fun submitList(list: List<Category>) {
         categoriesList.clear()
         categoriesList.addAll(list)
         notifyDataSetChanged()
