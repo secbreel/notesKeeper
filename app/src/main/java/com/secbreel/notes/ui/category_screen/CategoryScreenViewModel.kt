@@ -1,10 +1,11 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.ui.category_screen
 
 import androidx.lifecycle.ViewModel
 import com.secbreel.notes.model.DateItem
 import com.secbreel.notes.model.Note
 import com.secbreel.notes.persistance.CategoryRepository
 import com.secbreel.notes.persistance.NoteRepository
+import com.secbreel.notes.model.ListItem
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,6 +55,6 @@ class CategoryScreenViewModel(private val notesRepository: NoteRepository, priva
 
     private fun convertDate(dateString: String): String {
         val date = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).parse(dateString)
-        return SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(date!!)
+        return SimpleDateFormat("LLLL yyyy", Locale.getDefault()).format(date!!)
     }
 }

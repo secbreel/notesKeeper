@@ -1,11 +1,11 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.ui.category_screen
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.secbreel.notes.R
-import com.secbreel.notes.model.Note
+import com.secbreel.notes.model.ListItem
 
 class NotesAdapter(
     private val itemsList: List<ListItem> = listOf(),

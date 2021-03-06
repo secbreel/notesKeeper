@@ -1,4 +1,4 @@
-package com.secbreel.notes.ui
+package com.secbreel.notes.model
 
 abstract class ListItem {
     companion object {

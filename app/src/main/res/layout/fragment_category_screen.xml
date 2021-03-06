@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CategoryScreenFragment">
+    tools:context=".ui.category_screen.CategoryScreenFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addNote"
@@ -17,6 +17,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_baseline_add_24"
+        app:backgroundTint="?attr/colorPrimary"
         app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
