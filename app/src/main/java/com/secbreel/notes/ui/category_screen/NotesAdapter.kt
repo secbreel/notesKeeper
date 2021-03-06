@@ -1,58 +1,59 @@
 package com.secbreel.notes.ui.category_screen
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.secbreel.notes.R
+import com.secbreel.notes.databinding.ItemNoteBinding
+import com.secbreel.notes.databinding.ItemNoteDateBinding
+import com.secbreel.notes.model.DateItem
 import com.secbreel.notes.model.ListItem
+import com.secbreel.notes.model.Note
 
 class NotesAdapter(
-    private val itemsList: List<ListItem> = listOf(),
-    private val bind: (View, ListItem) -> Unit
+    private val itemsList: List<ListItem> = listOf()
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return if (viewType == ListItem.TYPE_DATE) {
-            val view: View = inflater.inflate(R.layout.item_note_date, parent, false)
+            val viewBinding = ItemNoteDateBinding.inflate(inflater, parent, false)
 
-            NotesDateViewHolder(view)
+            NotesDateViewHolder(viewBinding)
         } else {
-            val view: View = inflater.inflate(R.layout.item_note, parent, false)
+            val viewBinding = ItemNoteBinding.inflate(inflater, parent, false)
 
-            NoteViewHolder(view)
+            NoteViewHolder(viewBinding)
         }
     }
 
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            val item = itemsList[position]
-            when(itemsList[position].getType()) {
-                ListItem.TYPE_DATE -> {
-                    //val convertedHolder : NotesDateViewHolder = holder as NotesDateViewHolder
-                    bind(holder.itemView, item)
-                }
-                ListItem.TYPE_NOTE -> {
-                    bind(holder.itemView , item)
-                }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = itemsList[position]
+        when (itemsList[position].getType()) {
+            ListItem.TYPE_DATE -> {
+                val dateItem: DateItem = item as DateItem
+                (holder as NotesDateViewHolder).itemViewBinding.notesDate.text = dateItem.date
             }
-
-
-
-
+            ListItem.TYPE_NOTE -> {
+                val note: Note = item as Note
+                (holder as NoteViewHolder).itemViewBinding.noteName.text = note.title
+                (holder as NoteViewHolder).itemViewBinding.noteCreationDate.text =
+                    note.date
+            }
         }
 
-        override fun getItemCount(): Int = itemsList.count()
+
+    }
+
+    override fun getItemCount(): Int = itemsList.count()
 
     override fun getItemViewType(position: Int): Int {
         return itemsList[position].getType()
     }
 
-        class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NoteViewHolder(val itemViewBinding: ItemNoteBinding) :
+        RecyclerView.ViewHolder(itemViewBinding.root)
 
-        }
-
-        class NotesDateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        }
-    }
+    class NotesDateViewHolder(val itemViewBinding: ItemNoteDateBinding) :
+        RecyclerView.ViewHolder(itemViewBinding.root)
+}

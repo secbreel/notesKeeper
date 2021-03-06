@@ -5,7 +5,7 @@ import com.secbreel.notes.persistance.CategoryDatabase
 import com.secbreel.notes.persistance.CategoryRepository
 import com.secbreel.notes.persistance.NoteDatabase
 import com.secbreel.notes.persistance.NoteRepository
-import com.secbreel.notes.ui.*
+import com.secbreel.notes.ui.calendar.CalendarViewModel
 import com.secbreel.notes.ui.categories_list.CategoriesListViewModel
 import com.secbreel.notes.ui.category_screen.CategoryScreenViewModel
 import com.secbreel.notes.ui.create_category.CreateCategoryViewModel
@@ -37,6 +37,9 @@ val app = module {
     factory { SavePreferencesUseCase(app = get()) }
     factory { SavePictureUseCase(app = get()) }
     factory { AddCategoryUseCase(categoryRepository = get()) }
+    factory { GetNotesWithIdUseCase(noteRepository = get()) }
+    factory { GetAllNotesUseCase(noteRepository = get()) }
+    factory { GetGroupedNotesUseCase() }
     factory {
         ClearDataUseCase(
             categoryRepository = get(),
@@ -66,8 +69,11 @@ val app = module {
         )
     }
     viewModel<CategoryScreenViewModel> {
-        CategoryScreenViewModel(notesRepository = get(), categoryRepository = get())
+        CategoryScreenViewModel(getNotesWithId = get(), getGroupedNotes = get())
     }
 
     viewModel<CreateNotesViewModel> { CreateNotesViewModel(addNote = get()) }
+
+    viewModel<CalendarViewModel> { CalendarViewModel(getAllNotes = get(), getGroupedNotes = get()) }
+
 }

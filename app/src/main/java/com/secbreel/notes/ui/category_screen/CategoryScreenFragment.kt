@@ -11,11 +11,6 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.secbreel.notes.R
 import com.secbreel.notes.databinding.FragmentCategoryScreenBinding
-import com.secbreel.notes.databinding.ItemNoteBinding
-import com.secbreel.notes.databinding.ItemNoteDateBinding
-import com.secbreel.notes.model.DateItem
-import com.secbreel.notes.model.ListItem
-import com.secbreel.notes.model.Note
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
@@ -28,7 +23,7 @@ class CategoryScreenFragment() : Fragment() {
     private val viewModel by viewModel<CategoryScreenViewModel>()
     var disposable: Disposable = Disposables.disposed()
     private lateinit var navigationController: NavController
-    private lateinit var viewBinding : FragmentCategoryScreenBinding
+    private lateinit var viewBinding: FragmentCategoryScreenBinding
 
 
     override fun onCreateView(
@@ -36,13 +31,11 @@ class CategoryScreenFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewBinding = FragmentCategoryScreenBinding.inflate(layoutInflater, container, false)
-        val rootView = viewBinding.root
         val recyclerView = viewBinding.notesList
         categoryTitle = arguments?.getString("arg2")!!
         categoryId = arguments?.getInt("arg1")!!
         (activity as AppCompatActivity?)!!.supportActionBar?.title = categoryTitle
-        val layoutManager = LinearLayoutManager(this.context)
-        recyclerView.layoutManager = layoutManager
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
         navigationController =
             Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
         viewBinding.addNote.setOnClickListener {
@@ -54,31 +47,13 @@ class CategoryScreenFragment() : Fragment() {
                 bundle
             )
         }
-
         disposable = viewModel.getNotes(categoryId)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { items ->
-                recyclerView.adapter =
-                    NotesAdapter(items) { view, item ->
-                        when (item.getType()) {
-                            ListItem.TYPE_DATE -> {
-                                val dateItemBinding = ItemNoteDateBinding.bind(view)
-                                val dateItem: DateItem = item as DateItem
-                                dateItemBinding.notesDate.text = dateItem.date
-                            }
-                            ListItem.TYPE_NOTE -> {
-                                val noteItemBinding = ItemNoteBinding.bind(view)
-                                val note: Note = item as Note
-                                noteItemBinding.noteName.text = note.title
-                                noteItemBinding.noteCreationDate.text =
-                                    note.date
-                            }
-                        }
-                    }
+                recyclerView.adapter = NotesAdapter(items)
             }
             .subscribe()
-
-        return rootView
+        return viewBinding.root
     }
 
 

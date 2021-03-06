@@ -18,22 +18,25 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class CreateCategoryActivity : AppCompatActivity() {
     lateinit var backgroundIconView: ImageView
     private val viewModel by viewModel<CreateCategoryViewModel>()
-    private lateinit var viewBinding : ActivityCreateCategoryBinding
+    private lateinit var viewBinding: ActivityCreateCategoryBinding
 
-    private val getImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        Observable.just(uri)
-            .subscribeOn(Schedulers.io())
-            .doOnNext { bitmapUri -> viewModel.saveImage(bitmapUri!!) }
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { bitmap ->
-                GlideApp.with(this)
-                    .load(bitmap)
-                    .placeholder(R.drawable.ic_baseline_image_search_24)
-                    .centerCrop()
-                    .into(backgroundIconView)
+    private val getImage =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            if (uri != null) {
+                Observable.just(uri)
+                    .subscribeOn(Schedulers.io())
+                    .doOnNext { bitmapUri -> viewModel.saveImage(bitmapUri!!) }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnNext { bitmap ->
+                        GlideApp.with(this)
+                            .load(bitmap)
+                            .placeholder(R.drawable.ic_baseline_image_search_24)
+                            .centerCrop()
+                            .into(backgroundIconView)
+                    }
+                    .subscribe()
             }
-            .subscribe()
-    }
+        }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +70,7 @@ class CreateCategoryActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == android.R.id.home)
+        if (item.itemId == android.R.id.home)
             finish()
         return super.onOptionsItemSelected(item)
     }

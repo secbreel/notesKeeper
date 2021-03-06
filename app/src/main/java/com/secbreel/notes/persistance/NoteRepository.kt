@@ -7,7 +7,9 @@ class NoteRepository(private val dao : NoteDAO) {
 
     fun insert(notes : List<Note>) = dao.insert(notes)
 
-    fun observeAll(categoryId : Int) = dao.observeAll(categoryId)
+    fun observeWithId(categoryId : Int) = dao.observeWithId(categoryId)
+
+    fun observeAll() = dao.observeAll()
 
     fun delete(note : Note) = dao.delete(note)
 
