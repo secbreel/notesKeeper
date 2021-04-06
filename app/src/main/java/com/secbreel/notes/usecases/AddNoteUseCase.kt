@@ -15,7 +15,7 @@ class AddNoteUseCase(
     operator fun invoke(title: String, text: String, categoryId: Int) : Completable {
         return noteRepository.insert(Note(title, text, getDate(), categoryId))
             .andThen (
-                noteRepository.observeWithId(categoryId)
+                noteRepository.observeWithCategoryId(categoryId)
                     .firstOrError()
                     .flatMapCompletable { list ->
                         categoryRepository.updateNotesCount(categoryId, list.size)

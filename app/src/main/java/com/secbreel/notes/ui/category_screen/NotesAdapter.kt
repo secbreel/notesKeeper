@@ -10,7 +10,8 @@ import com.secbreel.notes.model.ListItem
 import com.secbreel.notes.model.Note
 
 class NotesAdapter(
-    private val itemsList: List<ListItem> = listOf()
+    private val itemsList: List<ListItem> = listOf(),
+    private val navigateToNote : (Note) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -39,6 +40,9 @@ class NotesAdapter(
                 (holder as NoteViewHolder).itemViewBinding.noteName.text = note.title
                 (holder as NoteViewHolder).itemViewBinding.noteCreationDate.text =
                     note.date
+                (holder as NoteViewHolder).itemViewBinding.root.setOnClickListener {
+                    navigateToNote(note)
+                }
             }
         }
 

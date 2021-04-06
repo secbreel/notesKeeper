@@ -10,6 +10,7 @@ import com.secbreel.notes.ui.categories_list.CategoriesListViewModel
 import com.secbreel.notes.ui.category_screen.CategoryScreenViewModel
 import com.secbreel.notes.ui.create_category.CreateCategoryViewModel
 import com.secbreel.notes.ui.create_note.CreateNotesViewModel
+import com.secbreel.notes.ui.note_screen.NoteScreenViewModel
 import com.secbreel.notes.ui.settings.SettingsFragmentViewModel
 import com.secbreel.notes.usecases.*
 import org.koin.android.ext.koin.androidContext
@@ -37,7 +38,7 @@ val app = module {
     factory { SavePreferencesUseCase(app = get()) }
     factory { SavePictureUseCase(app = get()) }
     factory { AddCategoryUseCase(categoryRepository = get()) }
-    factory { GetNotesWithIdUseCase(noteRepository = get()) }
+    factory { GetNotesWithCategoryIdUseCase(noteRepository = get()) }
     factory { GetAllNotesUseCase(noteRepository = get()) }
     factory { GetGroupedNotesUseCase() }
     factory {
@@ -49,6 +50,8 @@ val app = module {
     }
     factory { CategoryRepository(dao = get()) }
     factory { NoteRepository(dao = get()) }
+    factory { GetNoteWithIdUseCase(noteRepository = get()) }
+    factory { UpdateNoteUseCase(noteRepository = get()) }
 
     viewModel {
         CategoriesListViewModel(
@@ -69,11 +72,13 @@ val app = module {
         )
     }
     viewModel {
-        CategoryScreenViewModel(getNotesWithId = get(), getGroupedNotes = get())
+        CategoryScreenViewModel(getNotesWithCategoryId = get(), getGroupedNotes = get())
     }
 
     viewModel { CreateNotesViewModel(addNote = get()) }
 
     viewModel { CalendarViewModel(getAllNotes = get(), getGroupedNotes = get()) }
+
+    viewModel { NoteScreenViewModel(getNoteWithId = get(), updateNoteUseCase = get()) }
 
 }

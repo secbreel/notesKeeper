@@ -11,20 +11,26 @@ import io.reactivex.Observable
 @Dao
 interface NoteDAO {
     @Insert
-    fun insert(notes : List<Note>) : Completable
+    fun insert(notes: List<Note>): Completable
 
     @Query("SELECT * FROM note")
-    fun observeAll() : Observable<List<Note>>
+    fun observeAll(): Observable<List<Note>>
 
     @Query("SELECT * FROM note where note.categoryId = :categoryId ")
-    fun observeWithId(categoryId : Int) : Observable<List<Note>>
+    fun observeWithCategoryId(categoryId: Int): Observable<List<Note>>
+
+    @Query("UPDATE note SET title = :title, text = :text, date = :date where id = :id")
+    fun updateNote(id: Int, title: String, text: String, date: String): Completable
+
+    @Query("SELECT * FROM note where note.id = :id")
+    fun getNoteWithId(id: Int) : Observable<Note>
 
     @Delete
-    fun delete(note : Note) : Completable
+    fun delete(note: Note): Completable
 
     @Query("DELETE FROM note")
-    fun clear() : Completable
+    fun clear(): Completable
 
     @Insert
-    fun insert(note: Note) : Completable
+    fun insert(note: Note): Completable
 }
