@@ -50,7 +50,7 @@ class CategoryScreenFragment() : Fragment() {
         disposable = viewModel.getNotes(categoryId)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { items ->
-                recyclerView.adapter = NotesAdapter(items) {
+                recyclerView.adapter = NotesAdapter(items.notes) {
                     val bundle = Bundle()
                     bundle.putInt("arg1", it.id!!)
                     navigationController.navigate(

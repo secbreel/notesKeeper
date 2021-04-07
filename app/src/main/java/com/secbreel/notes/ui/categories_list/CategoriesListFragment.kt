@@ -35,26 +35,26 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
         viewBinding.addCategoryButton.setOnClickListener {
             navigationController.navigate(R.id.action_categoriesListFragment2_to_createCategoryActivity)
         }
-        adapter = CategoriesAdapter { view, category ->
+        adapter = CategoriesAdapter { view, categoryWithNotes ->
             val categoryItemViewBinding = ItemCategoryBinding.bind(view)
             GlideApp.with(this)
-                .load(category.imagePath)
+                .load(categoryWithNotes.category.imagePath)
                 .centerCrop()
                 .placeholder(R.drawable.ic_baseline_image_24)
                 .error(R.drawable.ic_baseline_image_not_supported_24)
                 .into(categoryItemViewBinding.categoryBackground)
             categoryItemViewBinding.categoryItem.setOnClickListener {
                 val bundle = Bundle()
-                bundle.putInt("arg1", category.id!!)
-                bundle.putString("arg2", category.title)
+                bundle.putInt("arg1", categoryWithNotes.category.id!!)
+                bundle.putString("arg2", categoryWithNotes.category.title)
                 navigationController.navigate(
                     R.id.action_categoriesListFragment2_to_categoryScreenFragment3,
                     bundle
                 )
 
             }
-            categoryItemViewBinding.categoryTitle.text = category.title
-            categoryItemViewBinding.notesCount.text = "${category.notesCount}"
+            categoryItemViewBinding.categoryTitle.text = categoryWithNotes.category.title
+            categoryItemViewBinding.notesCount.text = "${categoryWithNotes.category.notesCount}"
         }
         categoriesGrid.adapter = adapter
         return rootView
@@ -69,7 +69,7 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
         super.onResume()
         navigationController =
             Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
-        disposable = viewModel.categories
+        disposable = viewModel.getCategories()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext(adapter::submitList)
             .subscribe()

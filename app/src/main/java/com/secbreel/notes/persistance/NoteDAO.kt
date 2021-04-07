@@ -16,7 +16,7 @@ interface NoteDAO {
     @Query("SELECT * FROM note")
     fun observeAll(): Observable<List<Note>>
 
-    @Query("SELECT * FROM note where note.categoryId = :categoryId ")
+    @Query("SELECT * FROM note where note.category_id = :categoryId ")
     fun observeWithCategoryId(categoryId: Int): Observable<List<Note>>
 
     @Query("UPDATE note SET title = :title, text = :text, date = :date where id = :id")

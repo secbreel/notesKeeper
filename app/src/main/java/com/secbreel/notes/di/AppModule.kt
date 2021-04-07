@@ -29,7 +29,7 @@ val app = module {
     factory { SavePreferencesUseCase(app = get()) }
     factory { SavePictureUseCase(app = get()) }
     factory { AddCategoryUseCase(categoryRepository = get()) }
-    factory { GetNotesWithCategoryIdUseCase(noteRepository = get()) }
+    factory { GetCategoryWithNotesWithCategoryIdUseCase(categoryRepository = get()) }
     factory { GetAllNotesUseCase(noteRepository = get()) }
     factory { GetGroupedNotesUseCase() }
     factory {
@@ -46,7 +46,7 @@ val app = module {
 
     viewModel {
         CategoriesListViewModel(
-            getCategories = get()
+            getCategoriesUseCase = get()
         )
     }
     viewModel {
@@ -63,7 +63,7 @@ val app = module {
         )
     }
     viewModel {
-        CategoryScreenViewModel(getNotesWithCategoryId = get(), getGroupedNotes = get())
+        CategoryScreenViewModel(getCategoryWithNotesWithCategoryId = get(), getGroupedNotes = get())
     }
 
     viewModel { CreateNotesViewModel(addNote = get()) }

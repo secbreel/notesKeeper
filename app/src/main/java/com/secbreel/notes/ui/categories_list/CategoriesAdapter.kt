@@ -5,14 +5,15 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.secbreel.notes.R
 import com.secbreel.notes.model.Category
+import com.secbreel.notes.model.CategoryWithNotes
 
 class CategoriesAdapter(
-    private val initialCategoriesList: List<Category> = listOf(),
-    private val binding: (View, Category) -> Unit
+    private val initialCategoriesList: List<CategoryWithNotes> = listOf(),
+    private val binding: (View, CategoryWithNotes) -> Unit
 ) : BaseAdapter() {
 
-    private val categoriesList: MutableList<Category> = initialCategoriesList.toMutableList()
-    fun submitList(list: List<Category>) {
+    private val categoriesList: MutableList<CategoryWithNotes> = initialCategoriesList.toMutableList()
+    fun submitList(list: List<CategoryWithNotes>) {
         categoriesList.clear()
         categoriesList.addAll(list)
         notifyDataSetChanged()
