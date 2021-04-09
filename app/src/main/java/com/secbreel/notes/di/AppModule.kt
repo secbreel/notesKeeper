@@ -41,7 +41,7 @@ val app = module {
     }
     factory { CategoryRepository(dao = get()) }
     factory { NoteRepository(dao = get()) }
-    factory { GetNoteWithIdUseCase(noteRepository = get()) }
+    factory { GetNoteWithIdUseCase(categoryRepository = get()) }
     factory { UpdateNoteUseCase(noteRepository = get()) }
 
     viewModel {

@@ -9,7 +9,6 @@ class NoteRepository(private val dao: NoteDAO) {
 
     fun observeWithCategoryId(categoryId: Int) = dao.observeWithCategoryId(categoryId)
 
-    fun getNoteWithId(id : Int) = dao.getNoteWithId(id)
 
     fun observeAll() = dao.observeAll()
 

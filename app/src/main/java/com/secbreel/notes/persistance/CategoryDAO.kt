@@ -3,6 +3,7 @@ package com.secbreel.notes.persistance
 import androidx.room.*
 import com.secbreel.notes.model.Category
 import com.secbreel.notes.model.CategoryWithNotes
+import com.secbreel.notes.model.NoteWithCategoryName
 import io.reactivex.Completable
 import io.reactivex.Observable
 
@@ -18,6 +19,9 @@ interface CategoryDAO {
     @Transaction
     @Query("SELECT * From category where id = :categoryId")
     fun getCategoryWithNotesWithId(categoryId: Int) : Observable<CategoryWithNotes>
+
+    @Query("SELECT category.title AS category_name, note.title, note.text, note.date  FROM category, note where note.id = :noteId")
+    fun getNoteWithCategoryName(noteId: Int) : Observable<NoteWithCategoryName>
 
     @Delete
     fun delete(category : Category) : Completable

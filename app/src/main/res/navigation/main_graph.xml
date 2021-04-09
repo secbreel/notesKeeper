@@ -36,7 +36,6 @@
     <fragment
         android:id="@+id/categoryScreenFragment3"
         android:name="com.secbreel.notes.ui.category_screen.CategoryScreenFragment"
-        android:label="fragment_category_screen"
 
         tools:layout="@layout/fragment_category_screen">
         <argument

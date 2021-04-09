@@ -24,6 +24,6 @@ class AddNoteUseCase(
     }
 
     private fun getDate(): String {
-        return SimpleDateFormat("dd.MM.YYYY", Locale.getDefault()).format(Date())
+        return SimpleDateFormat("dd.MM.YYYY HH.mm.ss", Locale.getDefault()).format(Date())
     }
 }

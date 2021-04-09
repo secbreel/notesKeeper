@@ -9,15 +9,14 @@ import kotlin.collections.HashMap
 
 class GetGroupedNotesUseCase() {
 
-    operator fun invoke(notesList: List<Note>) : List<ListItem> {
+    operator fun invoke(notesList: List<Note>): List<ListItem> {
         return getSortedList(getGroupedHashList(notesList))
     }
 
 
     private fun getGroupedHashList(notesList: List<Note>): HashMap<String, MutableList<Note>> {
         val groupedHashMap: HashMap<String, MutableList<Note>> = HashMap()
-
-        for (note: Note in notesList) {
+        for (note: Note in notesList.sortedBy { it.date }.reversed()) {
 
             val hashMapKey: String = convertDate(note.date)
             if (groupedHashMap.containsKey(hashMapKey)) {

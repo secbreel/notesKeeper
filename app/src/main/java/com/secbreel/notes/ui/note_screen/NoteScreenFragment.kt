@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.secbreel.notes.R
 import com.secbreel.notes.databinding.FragmentNoteScreenBinding
@@ -49,7 +50,9 @@ class NoteScreenFragment : Fragment() {
                 viewBinding.noteTitle.setText(note.title)
                 viewBinding.noteText.setText(note.text)
                 viewBinding.updateDate.text = note.date
-                Log.i("MYTAG", "hi")
+                viewBinding.categoryName.text = note.categoryName
+                (activity as AppCompatActivity?)!!.supportActionBar?.title = note.categoryName
+
             }
             .subscribe()
     }

@@ -12,6 +12,8 @@ class CategoryRepository(private val dao : CategoryDAO) {
 
     fun getCategoryWithNotesWithId(categoryId: Int) = dao.getCategoryWithNotesWithId(categoryId)
 
+    fun getNoteWithCategoryName(noteId: Int) = dao.getNoteWithCategoryName(noteId)
+
     fun delete(category : Category) = dao.delete(category)
 
     fun clear() = dao.clear()

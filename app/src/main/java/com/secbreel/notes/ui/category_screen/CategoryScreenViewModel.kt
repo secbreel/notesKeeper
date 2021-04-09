@@ -5,6 +5,7 @@ import com.secbreel.notes.model.CategoryWithNotes
 import com.secbreel.notes.model.ListItem
 import com.secbreel.notes.usecases.GetGroupedNotesUseCase
 import com.secbreel.notes.usecases.GetCategoryWithNotesWithCategoryIdUseCase
+import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
 class CategoryScreenViewModel(
@@ -12,9 +13,9 @@ class CategoryScreenViewModel(
     private val getGroupedNotes: GetGroupedNotesUseCase
 ) : ViewModel() {
 
-    fun getNotes(categoryId: Int): io.reactivex.Observable<CategoryWithNotes> =
+    fun getNotes(categoryId: Int): Observable<List<ListItem>>? =
         getCategoryWithNotesWithCategoryId(categoryId)
-            .doOnNext { category ->
+            .map { category ->
                 getGroupedNotes.invoke(category.notes)
             }.subscribeOn(Schedulers.io())
 }
