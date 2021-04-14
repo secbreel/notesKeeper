@@ -22,27 +22,18 @@ class CalendarFragment : Fragment() {
     private lateinit var viewBinding: FragmentCalendarBinding
     private val viewModel by viewModel<CalendarViewModel>()
     private lateinit var disposable: Disposable
-    private lateinit var navigationController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         viewBinding = FragmentCalendarBinding.inflate(layoutInflater, container, false)
-        navigationController =
-            Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
         val recyclerView = viewBinding.notesList
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         disposable = viewModel.getNotes()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { items ->
                 recyclerView.adapter = NotesAdapter(items) {
-                    val bundle = Bundle()
-                    bundle.putInt("arg1", it.id!!)
-                    navigationController.navigate(
-                        R.id.action_navigation_calendar_to_noteScreen,
-                        bundle
-                    )
                 }
             }
             .subscribe()

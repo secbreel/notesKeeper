@@ -6,33 +6,41 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
+import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
+import com.github.terrakok.cicerone.androidx.AppNavigator
+import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.secbreel.notes.R
 import com.secbreel.notes.databinding.ActivityApplicationBinding
+import com.secbreel.notes.ui.categories_list.CategoriesListFragment
+import org.koin.android.ext.android.inject
 
 
 class ApplicationActivity : AppCompatActivity() {
-
+    //TODO set up toolbar with back arrow
+    //TODO убрать из метода onDestroy deInit *использовать kotlin extension и LifeCycle observer*
+    //TODO привязать поведение bottomNavigation к навигации *viewPager2 FragmentStateAdapter NavigationFragment(написать самому)* либо привязать простую навигацию на фрагменты(при нажатии на bottomNavigation перевести на нужный фрагмент)
     val READ_STORAGE_REQUEST_CODE = 500
     val WRITE_STORAGE_REQUEST_CODE = 501
-    lateinit var navigationController: NavController
     private lateinit var viewBinding: ActivityApplicationBinding
+    private val navigationHolder by inject<NavigatorHolder>()
+    private val router by inject<Router>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityApplicationBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        initNavigation()
+
         AppCompatDelegate.setDefaultNightMode(
             getSharedPreferences("preferences", MODE_PRIVATE).getInt(
                 "theme",
                 AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             )
         )
+
         setUpToolBar()
-        navigationController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
         getPermissions()
         val appBarConfiguration = AppBarConfiguration(
@@ -42,13 +50,11 @@ class ApplicationActivity : AppCompatActivity() {
                 R.id.navigation_settings
             )
         )
-        viewBinding.toolBar.mainToolBar.setupWithNavController(
-            navigationController,
-            appBarConfiguration
-        )
-        viewBinding.bottomNavigation.setupWithNavController(
-            navigationController
-        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        deInitNavigation()
     }
 
     private fun getPermissions() {
@@ -76,6 +82,18 @@ class ApplicationActivity : AppCompatActivity() {
 
     private fun setUpToolBar() {
         setSupportActionBar(viewBinding.toolBar.mainToolBar)
+    }
+
+    private fun initNavigation() {
+        val navigator = AppNavigator(this, R.id.nav_host_fragment_container)
+        navigationHolder.setNavigator(navigator)
+        router.replaceScreen(FragmentScreen {
+            CategoriesListFragment()
+        })
+    }
+
+    private fun deInitNavigation() {
+        navigationHolder.removeNavigator()
     }
 
 }

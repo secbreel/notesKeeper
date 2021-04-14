@@ -36,8 +36,8 @@ class CategoryScreenFragment() : Fragment() {
         categoryId = arguments?.getInt("arg1")!!
         (activity as AppCompatActivity?)!!.supportActionBar?.title = categoryTitle
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        navigationController =
-            Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
+        /*navigationController =
+            Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)*/
         viewBinding.addNote.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt("arg1", categoryId)

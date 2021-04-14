@@ -1,39 +1,44 @@
 package com.secbreel.notes.ui.categories_list
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.terrakok.cicerone.Router
+import com.github.terrakok.cicerone.androidx.ActivityScreen
+import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.secbreel.notes.R
 import com.secbreel.notes.databinding.FragmentCategoriesListBinding
 import com.secbreel.notes.databinding.ItemCategoryBinding
 import com.secbreel.notes.ui.GlideApp
+import com.secbreel.notes.ui.category_screen.CategoryScreenFragment
+import com.secbreel.notes.ui.create_category.CreateCategoryActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class CategoriesListFragment() : androidx.fragment.app.Fragment() {
+class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
+    //TODO Заменить на cicerone
+    //TODO Убрать disposable с экрана *extension lifeCycle observer generic*
+    //TODO убрать навигацию на viewModel
     private val viewModel by viewModel<CategoriesListViewModel>()
     private lateinit var adapter: CategoriesAdapter
     var disposable: Disposable = Disposables.disposed()
-    private lateinit var navigationController: NavController
-    private lateinit var viewBinding: FragmentCategoriesListBinding
+    private val viewBinding by viewBinding(FragmentCategoriesListBinding::bind)
+    private val router by inject<Router>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        viewBinding = FragmentCategoriesListBinding.inflate(layoutInflater, container, false)
-        val rootView = viewBinding.root
-        val categoriesGrid = viewBinding.categoriesGrid
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewBinding.addCategoryButton.setOnClickListener {
-            navigationController.navigate(R.id.action_categoriesListFragment2_to_createCategoryActivity)
+            router.navigateTo(ActivityScreen {
+                Intent(it, CreateCategoryActivity::class.java)
+            })
         }
         adapter = CategoriesAdapter { view, categoryWithNotes ->
             val categoryItemViewBinding = ItemCategoryBinding.bind(view)
@@ -47,17 +52,17 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
                 val bundle = Bundle()
                 bundle.putInt("arg1", categoryWithNotes.category.id!!)
                 bundle.putString("arg2", categoryWithNotes.category.title)
-                navigationController.navigate(
-                    R.id.action_categoriesListFragment2_to_categoryScreenFragment3,
-                    bundle
-                )
+                router.navigateTo(FragmentScreen {
+                    CategoryScreenFragment().apply {
+                        arguments = bundle
+                    }
+                })
 
             }
             categoryItemViewBinding.categoryTitle.text = categoryWithNotes.category.title
             categoryItemViewBinding.notesCount.text = "${categoryWithNotes.category.notesCount}"
         }
-        categoriesGrid.adapter = adapter
-        return rootView
+        viewBinding.categoriesGrid.adapter = adapter
     }
 
     override fun onPause() {
@@ -67,8 +72,8 @@ class CategoriesListFragment() : androidx.fragment.app.Fragment() {
 
     override fun onResume() {
         super.onResume()
-        navigationController =
-            Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)
+        /*navigationController =
+            Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)*/
         disposable = viewModel.getCategories()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext(adapter::submitList)

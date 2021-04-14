@@ -1,7 +1,11 @@
 package com.secbreel.notes.di
 
 import androidx.room.Room
-import com.secbreel.notes.persistance.*
+import com.github.terrakok.cicerone.Cicerone
+import com.github.terrakok.cicerone.Router
+import com.secbreel.notes.persistance.AppDatabase
+import com.secbreel.notes.persistance.CategoryRepository
+import com.secbreel.notes.persistance.NoteRepository
 import com.secbreel.notes.ui.calendar.CalendarViewModel
 import com.secbreel.notes.ui.categories_list.CategoriesListViewModel
 import com.secbreel.notes.ui.category_screen.CategoryScreenViewModel
@@ -15,6 +19,10 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val app = module {
+    //TODO декомпозировать
+    single { Cicerone.create() }
+    single { get<Cicerone<Router>>().router }
+    single { get<Cicerone<Router>>().getNavigatorHolder() }
     single { get<AppDatabase>().categoryDao() }
     single { get<AppDatabase>().noteDao() }
     single {
