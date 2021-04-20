@@ -3,24 +3,30 @@ package com.secbreel.notes.ui.create_category
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.terrakok.cicerone.Router
 import com.secbreel.notes.R
-import com.secbreel.notes.databinding.ActivityCreateCategoryBinding
+import com.secbreel.notes.databinding.FragmentCreateCategoryBinding
 import com.secbreel.notes.ui.GlideApp
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class CreateCategoryActivity : AppCompatActivity() {
+class CreateCategoryFragment : Fragment(R.layout.fragment_create_category) {
+
     lateinit var backgroundIconView: ImageView
     private val viewModel by viewModel<CreateCategoryViewModel>()
-    private lateinit var viewBinding: ActivityCreateCategoryBinding
+    private val viewBinding by viewBinding(FragmentCreateCategoryBinding::bind)
+    private val router by inject<Router>()
 
     private val getImage =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -40,14 +46,9 @@ class CreateCategoryActivity : AppCompatActivity() {
             }
         }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewBinding = ActivityCreateCategoryBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
-        setSupportActionBar(viewBinding.toolBar.mainToolBar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "create category"
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity?)!!.supportActionBar?.title = "Create category"
 
         backgroundIconView = viewBinding.categoryIcon
 
@@ -67,15 +68,8 @@ class CreateCategoryActivity : AppCompatActivity() {
         viewBinding.button.setOnClickListener {
             viewModel.addCategory(viewBinding.editCategoryTitle.text.toString())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { finish() }
+                .doOnComplete { router.exit() }
                 .subscribe()
         }
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home)
-            finish()
-        return super.onOptionsItemSelected(item)
     }
 }

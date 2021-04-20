@@ -6,33 +6,34 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.ui.AppBarConfiguration
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.secbreel.notes.R
 import com.secbreel.notes.databinding.ActivityApplicationBinding
+import com.secbreel.notes.ui.calendar.CalendarFragment
 import com.secbreel.notes.ui.categories_list.CategoriesListFragment
+import com.secbreel.notes.ui.settings.SettingsFragment
 import org.koin.android.ext.android.inject
 
 
-class ApplicationActivity : AppCompatActivity() {
+class ApplicationActivity : AppCompatActivity(R.layout.activity_application) {
     //TODO set up toolbar with back arrow
     //TODO убрать из метода onDestroy deInit *использовать kotlin extension и LifeCycle observer*
     //TODO привязать поведение bottomNavigation к навигации *viewPager2 FragmentStateAdapter NavigationFragment(написать самому)* либо привязать простую навигацию на фрагменты(при нажатии на bottomNavigation перевести на нужный фрагмент)
     val READ_STORAGE_REQUEST_CODE = 500
     val WRITE_STORAGE_REQUEST_CODE = 501
-    private lateinit var viewBinding: ActivityApplicationBinding
+    private val viewBinding by viewBinding(ActivityApplicationBinding::bind)
     private val navigationHolder by inject<NavigatorHolder>()
     private val router by inject<Router>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityApplicationBinding.inflate(layoutInflater)
-        setContentView(viewBinding.root)
         initNavigation()
-
         AppCompatDelegate.setDefaultNightMode(
             getSharedPreferences("preferences", MODE_PRIVATE).getInt(
                 "theme",
@@ -42,20 +43,45 @@ class ApplicationActivity : AppCompatActivity() {
 
         setUpToolBar()
 
+        viewBinding.bottomNavigation.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_categories -> {
+                    router.replaceScreen(FragmentScreen{CategoriesListFragment()})
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_calendar -> {
+                    router.replaceScreen(FragmentScreen{CalendarFragment()})
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_settings-> {
+                    router.replaceScreen(FragmentScreen{SettingsFragment()})
+                    return@setOnNavigationItemSelectedListener true
+                }
+            }
+            false
+
+        }
+
+        val fragmentManager = supportFragmentManager
+        fragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
+
+            override fun onFragmentResumed(fm: FragmentManager, f: Fragment) {
+                super.onFragmentResumed(fm, f)
+                if(supportFragmentManager.backStackEntryCount > 0)
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                else supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            }
+
+        }, true)
+
         getPermissions()
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_categories,
-                R.id.navigation_calendar,
-                R.id.navigation_settings
-            )
-        )
     }
 
     override fun onDestroy() {
         super.onDestroy()
         deInitNavigation()
     }
+
 
     private fun getPermissions() {
         if (ContextCompat.checkSelfPermission(
@@ -82,6 +108,7 @@ class ApplicationActivity : AppCompatActivity() {
 
     private fun setUpToolBar() {
         setSupportActionBar(viewBinding.toolBar.mainToolBar)
+        viewBinding.toolBar.mainToolBar.setNavigationOnClickListener { router.exit() }
     }
 
     private fun initNavigation() {
@@ -95,6 +122,6 @@ class ApplicationActivity : AppCompatActivity() {
     private fun deInitNavigation() {
         navigationHolder.removeNavigator()
     }
-
 }
+
 

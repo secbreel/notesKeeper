@@ -1,19 +1,18 @@
 package com.secbreel.notes.ui.categories_list
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.terrakok.cicerone.Router
-import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.secbreel.notes.R
 import com.secbreel.notes.databinding.FragmentCategoriesListBinding
 import com.secbreel.notes.databinding.ItemCategoryBinding
 import com.secbreel.notes.ui.GlideApp
 import com.secbreel.notes.ui.category_screen.CategoryScreenFragment
-import com.secbreel.notes.ui.create_category.CreateCategoryActivity
+import com.secbreel.notes.ui.create_category.CreateCategoryFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
@@ -35,9 +34,10 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as AppCompatActivity?)!!.supportActionBar?.title = "Categories"
         viewBinding.addCategoryButton.setOnClickListener {
-            router.navigateTo(ActivityScreen {
-                Intent(it, CreateCategoryActivity::class.java)
+            router.navigateTo(FragmentScreen {
+                CreateCategoryFragment()
             })
         }
         adapter = CategoriesAdapter { view, categoryWithNotes ->
@@ -72,8 +72,6 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
 
     override fun onResume() {
         super.onResume()
-        /*navigationController =
-            Navigation.findNavController(activity as AppCompatActivity, R.id.nav_host_fragment)*/
         disposable = viewModel.getCategories()
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext(adapter::submitList)

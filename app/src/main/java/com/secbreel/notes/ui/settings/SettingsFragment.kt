@@ -1,28 +1,23 @@
 package com.secbreel.notes.ui.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.secbreel.notes.R
 import com.secbreel.notes.databinding.FragmentSettingsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private val viewModel by viewModel<SettingsFragmentViewModel>()
-    private lateinit var viewBinding : FragmentSettingsBinding
+    private val viewBinding by viewBinding(FragmentSettingsBinding::bind)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        viewBinding = FragmentSettingsBinding.inflate(layoutInflater, container, false)
-        val rootView = viewBinding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewBinding.clearCategories.setOnClickListener {
             viewModel.clearCategories()
             Toast.makeText(requireContext(), "CATEGORIES CLEARED!", Toast.LENGTH_SHORT).show()
@@ -57,8 +52,6 @@ class SettingsFragment : Fragment() {
                 AppCompatDelegate.setDefaultNightMode(theme)
             }
 
-
-        return rootView
     }
 
 }

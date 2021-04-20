@@ -1,30 +1,28 @@
 package com.secbreel.notes.ui.create_note
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.terrakok.cicerone.Router
+import com.secbreel.notes.R
 import com.secbreel.notes.databinding.FragmentCreateNotesBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class CreateNotesFragment() : Fragment() {
+class CreateNotesFragment() : Fragment(R.layout.fragment_create_notes) {
 
     private val viewModel by viewModel<CreateNotesViewModel>()
     private var categoryId: Int = 0
     private lateinit var categoryTitle: String
-    private lateinit var viewBinding: FragmentCreateNotesBinding
+    private val viewBinding by viewBinding(FragmentCreateNotesBinding::bind)
+    private val router by inject<Router>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        viewBinding = FragmentCreateNotesBinding.inflate(layoutInflater, container, false)
-        val rootView = viewBinding.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         categoryId = arguments?.getInt("arg1")!!
         categoryTitle = arguments?.getString("arg2")!!
         viewBinding.categoryName.text = categoryTitle
@@ -34,12 +32,10 @@ class CreateNotesFragment() : Fragment() {
             viewModel.saveNote(title, text, categoryId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete {
-                    findNavController().navigateUp()
+                    router.exit()
                 }
                 .subscribe()
         }
-
-        return rootView
     }
 
 }
