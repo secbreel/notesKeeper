@@ -1,7 +1,7 @@
 package com.secbreel.notes.usecases
 
 import com.secbreel.notes.persistance.NoteRepository
-import io.reactivex.Completable
+import io.reactivex.rxjava3.core.Completable
 import java.text.SimpleDateFormat
 import java.util.*
 

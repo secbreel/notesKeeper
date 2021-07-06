@@ -4,8 +4,8 @@ import androidx.room.*
 import com.secbreel.notes.model.Category
 import com.secbreel.notes.model.CategoryWithNotes
 import com.secbreel.notes.model.NoteWithCategoryName
-import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
 
 @Dao
 interface CategoryDAO {

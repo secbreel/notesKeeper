@@ -1,7 +1,7 @@
 package com.secbreel.notes.persistance
 
 import com.secbreel.notes.model.Category
-import io.reactivex.Completable
+import io.reactivex.rxjava3.core.Completable
 
 
 class CategoryRepository(private val dao : CategoryDAO) {

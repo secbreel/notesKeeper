@@ -5,9 +5,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.secbreel.notes.model.Note
-import com.secbreel.notes.model.NoteWithCategoryName
-import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
 
 @Dao
 interface NoteDAO {

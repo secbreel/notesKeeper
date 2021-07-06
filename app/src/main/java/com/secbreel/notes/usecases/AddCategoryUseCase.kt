@@ -2,7 +2,7 @@ package com.secbreel.notes.usecases
 
 import com.secbreel.notes.model.Category
 import com.secbreel.notes.persistance.CategoryRepository
-import io.reactivex.Completable
+import io.reactivex.rxjava3.core.Completable
 
 class AddCategoryUseCase(private val categoryRepository: CategoryRepository) {
     operator fun invoke(title : String, currentPhotoPath : String) : Completable {

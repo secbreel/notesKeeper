@@ -4,7 +4,7 @@ import android.app.Application
 import android.os.Environment
 import com.secbreel.notes.persistance.CategoryRepository
 import com.secbreel.notes.persistance.NoteRepository
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ClearDataUseCase(
     private val categoryRepository: CategoryRepository,
