@@ -24,8 +24,8 @@ import org.koin.android.ext.android.inject
 class ApplicationActivity : AppCompatActivity(R.layout.activity_application) {
     //TODO убрать из метода onDestroy deInit *использовать kotlin extension и LifeCycle observer*
     //TODO привязать поведение bottomNavigation к навигации *viewPager2 FragmentStateAdapter NavigationFragment(написать самому)* либо привязать простую навигацию на фрагменты(при нажатии на bottomNavigation перевести на нужный фрагмент)
-    val READ_STORAGE_REQUEST_CODE = 500
-    val WRITE_STORAGE_REQUEST_CODE = 501
+    private val READ_STORAGE_REQUEST_CODE = 500
+    private val WRITE_STORAGE_REQUEST_CODE = 501
     private val viewBinding by viewBinding(ActivityApplicationBinding::bind)
     private val navigationHolder by inject<NavigatorHolder>()
     private val router by inject<Router>()
