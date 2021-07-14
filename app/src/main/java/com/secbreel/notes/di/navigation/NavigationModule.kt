@@ -14,5 +14,5 @@ val navigation = module {
 
     single { get<Cicerone<Router>>().getNavigatorHolder() }
 
-    single { InitialRouter(router = get()) as IInitialRouter }
+    single <IInitialRouter> { InitialRouter(router = get()) }
 }

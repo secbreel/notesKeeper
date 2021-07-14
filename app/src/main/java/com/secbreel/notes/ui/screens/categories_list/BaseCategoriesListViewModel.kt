@@ -1,4 +1,4 @@
-package com.secbreel.notes.ui.screens.initial
+package com.secbreel.notes.ui.screens.categories_list
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModel

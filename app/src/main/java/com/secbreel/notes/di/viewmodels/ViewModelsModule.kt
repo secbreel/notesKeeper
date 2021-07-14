@@ -1,11 +1,12 @@
 package com.secbreel.notes.di.viewmodels
 
 import com.secbreel.notes.ui.screens.calendar.CalendarViewModel
+import com.secbreel.notes.ui.screens.categories_list.BaseCategoriesListViewModel
 import com.secbreel.notes.ui.screens.categories_list.CategoriesListViewModel
+import com.secbreel.notes.ui.screens.category_screen.BaseCategoryScreenViewModel
 import com.secbreel.notes.ui.screens.category_screen.CategoryScreenViewModel
 import com.secbreel.notes.ui.screens.create_category.CreateCategoryViewModel
 import com.secbreel.notes.ui.screens.create_note.CreateNotesViewModel
-import com.secbreel.notes.ui.screens.initial.BaseCategoriesListViewModel
 import com.secbreel.notes.ui.screens.note_screen.NoteScreenViewModel
 import com.secbreel.notes.ui.screens.settings.SettingsFragmentViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -23,8 +24,8 @@ val viewModels = module {
     viewModel {
         CreateCategoryViewModel(addCategory = get(), savePicture = get())
     }
-    viewModel {
-        CategoryScreenViewModel(getCategoryWithNotesWithCategoryId = get(), getGroupedNotes = get())
+    viewModel<BaseCategoryScreenViewModel> {
+        CategoryScreenViewModel(getCategoryWithNotesWithCategoryId = get(), getGroupedNotes = get(), router = get())
     }
 
     viewModel { CreateNotesViewModel(addNote = get()) }

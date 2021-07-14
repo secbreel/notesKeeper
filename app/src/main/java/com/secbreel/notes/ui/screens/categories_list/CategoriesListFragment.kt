@@ -10,7 +10,7 @@ import com.secbreel.notes.databinding.FragmentCategoriesListBinding
 import com.secbreel.notes.databinding.ItemCategoryBinding
 import com.secbreel.notes.ui.ext.GlideApp
 import com.secbreel.notes.ui.ext.subscribe
-import com.secbreel.notes.ui.screens.initial.BaseCategoriesListViewModel
+import com.secbreel.notes.ui.screens.ApplicationActivity.Companion.toolbarTitle
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.subjects.PublishSubject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -34,7 +34,7 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
         view.setOnClickListener {
             val bundle = Bundle()
             categoryWithNotes.category.id?.let { bundle.putInt("arg1", it) }
-            categoryWithNotes.category.title.let { bundle.putString("arg2", it) }
+            bundle.toolbarTitle = categoryWithNotes.category.title
 
             onCategoryClicked.onNext(bundle)
         }
