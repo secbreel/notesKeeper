@@ -41,4 +41,8 @@ class InitialRouter(private val router: Router) : IInitialRouter {
             }
         })
     }
+
+    override fun navigateToPreviousScreen() {
+        router.exit()
+    }
 }

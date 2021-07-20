@@ -12,7 +12,6 @@ class CategoriesListViewModel(
     private val router: IInitialRouter
 ) : BaseCategoriesListViewModel() {
     //TODO заменить getCategoriesUseCase на observable
-    //TODO добавить абстрактную BaseViewModel и настроить отлавливание событий с view и обработку на viewModel
 
 
     override val categories: BehaviorSubject<List<CategoryWithNotes>> = BehaviorSubject.create()

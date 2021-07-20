@@ -36,6 +36,7 @@ class CategoriesListFragment : Fragment(R.layout.fragment_categories_list) {
             categoryWithNotes.category.id?.let { bundle.putInt("arg1", it) }
             bundle.toolbarTitle = categoryWithNotes.category.title
 
+
             onCategoryClicked.onNext(bundle)
         }
 

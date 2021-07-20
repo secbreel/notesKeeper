@@ -1,5 +1,7 @@
 package com.secbreel.notes.di.viewmodels
 
+import com.secbreel.notes.ui.screens.ApplicationActivityViewModel
+import com.secbreel.notes.ui.screens.BaseApplicationActivityViewModel
 import com.secbreel.notes.ui.screens.calendar.CalendarViewModel
 import com.secbreel.notes.ui.screens.categories_list.BaseCategoriesListViewModel
 import com.secbreel.notes.ui.screens.categories_list.CategoriesListViewModel
@@ -14,6 +16,10 @@ import org.koin.dsl.module
 
 val viewModels = module {
 
+    viewModel<BaseApplicationActivityViewModel> {
+        ApplicationActivityViewModel(router = get())
+    }
+
     viewModel<BaseCategoriesListViewModel> {
         CategoriesListViewModel(getCategoriesUseCase = get(), router = get())
     }
@@ -22,15 +28,15 @@ val viewModels = module {
     }
 
     viewModel {
-        CreateCategoryViewModel(addCategory = get(), savePicture = get())
+        CreateCategoryViewModel(addCategory = get(), savePicture = get(), router = get())
     }
     viewModel<BaseCategoryScreenViewModel> {
         CategoryScreenViewModel(getCategoryWithNotesWithCategoryId = get(), getGroupedNotes = get(), router = get())
     }
 
-    viewModel { CreateNotesViewModel(addNote = get()) }
+    viewModel { CreateNotesViewModel(addNote = get(), router = get()) }
 
-    viewModel { CalendarViewModel(getAllNotes = get(), getGroupedNotes = get()) }
+    viewModel { CalendarViewModel(getAllNotes = get(), getGroupedNotes = get(), router = get()) }
 
     viewModel { NoteScreenViewModel(getNoteWithId = get(), updateNoteUseCase = get()) }
 }

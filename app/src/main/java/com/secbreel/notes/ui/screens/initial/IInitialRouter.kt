@@ -7,5 +7,6 @@ interface IInitialRouter {
     fun navigateCreateCategory()
     fun navigateCreateNote(bundle: Bundle)
     fun navigateNoteScreen(bundle: Bundle)
+    fun navigateToPreviousScreen()
 
 }

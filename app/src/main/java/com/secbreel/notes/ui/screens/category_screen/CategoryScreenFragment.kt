@@ -32,7 +32,6 @@ class CategoryScreenFragment() : Fragment(R.layout.fragment_category_screen) {
         recyclerView.layoutManager = LinearLayoutManager(this.context)
 
 
-
         viewModel.getNotes(categoryId)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnNext { items ->

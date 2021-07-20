@@ -9,23 +9,21 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.terrakok.cicerone.Router
 import com.secbreel.notes.R
 import com.secbreel.notes.databinding.FragmentCreateCategoryBinding
 import com.secbreel.notes.ui.ext.GlideApp
+import com.secbreel.notes.ui.ext.subscribe
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class CreateCategoryFragment : Fragment(R.layout.fragment_create_category) {
 
-    lateinit var backgroundIconView: ImageView
+    private lateinit var backgroundIconView: ImageView
     private val viewModel by viewModel<CreateCategoryViewModel>()
     private val viewBinding by viewBinding(FragmentCreateCategoryBinding::bind)
-    private val router by inject<Router>()
 
     private val getImage =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -41,7 +39,7 @@ class CreateCategoryFragment : Fragment(R.layout.fragment_create_category) {
                             .centerCrop()
                             .into(backgroundIconView)
                     }
-                    .subscribe()
+                    .subscribe(viewLifecycleOwner)
             }
         }
 
@@ -67,8 +65,11 @@ class CreateCategoryFragment : Fragment(R.layout.fragment_create_category) {
         viewBinding.button.setOnClickListener {
             viewModel.addCategory(viewBinding.editCategoryTitle.text.toString())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnComplete { router.exit() }
+                .doOnComplete {
+                    viewModel.returnToBackScreen()
+                }
                 .subscribe()
+
         }
     }
 }
